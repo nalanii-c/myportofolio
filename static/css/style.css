@@ -7,9 +7,9 @@
 :root {
     --ink: #1c1917;
     --paper: #faf6f0;
-    --accent: #d95d39;
-    --accent-dark: #a8442a;
-    --line: #e3d9c9;
+    --accent: #446788;
+    --accent-dark: #100f0e;
+    --line: #0f0f0f;
     --text-muted: #666459;
     --radius: 4px;
 }
@@ -73,8 +73,20 @@ h1, .brand {
     gap: 1.5rem 3rem;
 }
 
+/* Animasi tulisan*/
 .hero-identity {
-    grid-area: identity;
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 0.95;
+    animation: floatNama 3s ease-in-out infinite;
+}
+/* Animasi naik turun untuk tulisan nama panjang*/
+@keyframes floatNama {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 .hero-details {
@@ -128,17 +140,25 @@ h1, .brand {
 .social-link {
     display: inline-block;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    color: var(--paper);
-    background-color: var(--ink);
-    border-radius: var(--radius);
+    color: #2b2b2b; /* teks abu gelap */
+    background-color: #b0b0b0; /* abu batu */
+    
+    border-radius: 4px; /* lekukan sedikit gaya ujung batu */
+    border: 3px solid #5a5a5a; /* outline batu gelap */
+    
+    /* bayangan tebal di bawah biar efek batunya timbul */
+    box-shadow: 0px 4px 0px #383838; 
+    
     padding: 0.5rem 1.1rem;
-    transition: background-color 0.2s ease;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .social-link:hover {
-    background-color: var(--accent);
+    background-color: #c2c2c2; /* batu sedikit terang pas disentuh */
+    transform: translateY(2px); /* efek batu ditekan */
+    box-shadow: 0px 2px 0px #383838;
 }
 
 .hero-photo {
@@ -149,24 +169,33 @@ h1, .brand {
 
 .photo-block {
     position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
+    top: 0.75rem;
+    left: 0.75rem;
     width: 100%;
     height: 100%;
-    background-color: var(--accent);
-    border-radius: var(--radius);
+    background-color: #383838; /* bayangan dasar batu tebal di belakang */
+    border-radius: 12px;
     z-index: 0;
 }
 
 .avatar {
-    position: relative;
+   position: relative;
     z-index: 1;
     display: block;
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: var(--radius);
-    border: 3px solid var(--ink);
+    border-radius: 12px; /* sudut tumpul batu */
+    border: 6px solid #545b62; /* bingkai luar batu gelap tebal */
+    box-shadow: inset 3px 3px 0px rgba(255, 255, 255, 0.7); /* garis terang tipis di dalam */
+    transition: transform 0.2s ease;
+    cursor: pointer; /* kursor beranimasi */
+}
+
+/* Efek PFP*/
+.avatar:hover {
+    transform: translateY(-6px);
+
 }
 
 .site-footer {
@@ -219,47 +248,61 @@ h1, .brand {
   gap: 24px;
 }
 
+/* Kotak Card ala Lempengan Batu */
 .project-card {
-  background: #ffffff;
-  border-radius: 12px;
+  background: #b3b7ba; /* warna abu-abu tengah lempengan */
+  border-radius: 12px; /* sudut melengkung persis gambar batu */
   padding: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  
+  /* bingkai luar abu batu gelap */
+  border: 6px solid #545b62; 
+  
+  /* garis terang putih di dalam + tebal batu di bawah */
+  box-shadow: 
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 6px 0px #343a40; 
+    
   display: flex;
   flex-direction: column;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px); /* efek tertekan */
+  box-shadow: 
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 4px 0px #343a40;
 }
 
-.badge {
-  display: inline-block;
-  align-self: flex-start;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #2563eb;
-  background-color: #eff6ff;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  margin-bottom: 12px;
-}
-
+/* Judul di dalam kotaknya */
 .project-card h3 {
   margin: 0 0 10px 0;
   font-size: 1.25rem;
-  color: #0f172a;
+  color: #1a1a1a;
 }
 
+/* Teks isi di dalam kotaknya */
 .project-card p {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #64748b;
+  color: #2e2e2e;
+}
+
+/* Tag kecil di atas kotak */
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  background-color: #737373; /* batu abu sedang */
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 2px solid #383838;
+  margin-bottom: 12px;
 }
 
 /* Responsif Mobile */
