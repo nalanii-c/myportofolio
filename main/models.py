@@ -19,6 +19,10 @@ class Experience(models.Model):
     thumbnail = models.URLField(blank=True, null=True)
     started_at = models.DateTimeField(default=timezone.now)
     ended_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['-started_at']
+
     def __str__(self):
         return self.title
     
