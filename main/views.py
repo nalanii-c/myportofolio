@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from main.models import Skill, Experience
 
+<<<<<<< HEAD
 #Main
+=======
+
+>>>>>>> dd5a78b (fix: restructure main app folder and add new model migrations)
 def show_main(request):
     context = {
         "name": "Khalisha Nalani Chandra",
@@ -21,7 +25,11 @@ def show_experience(request):
     }
     return render(request, "experience.html", context)
 
+<<<<<<< HEAD
 #Skill
+=======
+#Skills
+>>>>>>> dd5a78b (fix: restructure main app folder and add new model migrations)
 def show_skills(request):
     context = {
         "name": "Khalisha Nalani Chandra",
