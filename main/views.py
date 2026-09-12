@@ -21,7 +21,7 @@ def show_experience(request):
     }
     return render(request, "experience.html", context)
 
-#Skills
+#Skill
 def show_skills(request):
     context = {
         "name": "Khalisha Nalani Chandra",
