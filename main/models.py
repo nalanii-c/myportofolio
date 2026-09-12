@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.utils import timezone
 
+#Experience
 class Experience(models.Model):
     EXPERIENCE_CHOICES = [
         ('internship', 'Internship'),
@@ -29,3 +30,20 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
+    
+#Skill
+class Skill(models.Model):
+    SKILL_CATEGORIES = [
+        ('technical', 'Technical Skill'),
+        ('soft', 'Soft Skill'),
+        ('language', 'Language'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    category = models.CharField(max_length=50, choices=SKILL_CATEGORIES, default='technical')
+    proficiency = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
