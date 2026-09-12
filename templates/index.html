@@ -28,15 +28,38 @@
     <main>
         <section class="hero" id="profile">
             <div class="container hero-grid">
-                <div class="hero-content">
-                    <p class="section-kicker">Mahasiswa Sistem Informasi</p>
-                    <h1>Hi, I'm {{ name }}</h1>
-                    <p class="hero-bio">{{ bio }}</p>
-                    <div class="hero-actions">
-                        <span class="badge">NPM: {{ npm }}</span>
-                        <span class="badge">{{ study_program }}</span>
+
+                <div class="hero-identity">
+                    <p class="hero-kicker">Information Systems &middot; Universitas Indonesia</p>
+                    <h1>{{ name }}</h1>
+                </div>
+
+                <div class="hero-details">
+                    <p class="bio">{{ bio }}</p>
+
+                    <dl class="meta-list">
+                        <div class="meta-row">
+                            <dt>NPM</dt>
+                            <dd>{{ npm }}</dd>
+                        </div>
+                        <div class="meta-row">
+                            <dt>Program</dt>
+                            <dd>{{ study_program }}</dd>
+                        </div>
+                    </dl>
+
+                    <div class="social-links">
+                        <a class="social-link" href="{{ github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a class="social-link" href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        <a class="social-link" href="mailto:{{ email }}">Email</a>
                     </div>
                 </div>
+
+                <div class="hero-photo">
+                    <div class="photo-block"></div>
+                    <img class="avatar" src="/static/img/foto_nala.jpeg" alt="Photo of {{ name }}">
+                </div>
+
             </div>
         </section>
     </main>

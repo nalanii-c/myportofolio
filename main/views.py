@@ -7,6 +7,9 @@ def show_main(request):
         "npm": "2506625041",
         "study_program": "S1 Sistem Informasi",
         "bio": "Second-Year Information Systems Undergraduate @Universitas Indonesia | Graphic Designer | Data Science Enthusiast | Figure Skater",
+        "github_url": "https://github.com/nalanii-c",
+        "linkedin_url": "https://www.linkedin.com/in/khalisha-nalani-chandra-18a693379/",
+        "email": "chandra.nala20@gmail.com",
     }
     return render(request, "index.html", context)
 
