@@ -119,4 +119,7 @@ sftp-config.json
 .history
 
 # macOS
-.DS_Store
+.DS_Store__pycache__/
+*.pyc
+db.sqlite3
+venv/
