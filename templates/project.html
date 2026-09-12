@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ name }} - Portofolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!--HEADER -->
+    <header class="site-header">
+        <div class="container">
+            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
+            <nav>
+                <a href="{% url 'main:show_main' %}">Profile</a>
+                <a href="#education">Education</a>
+                <a href="#skills">Skills</a>
+                 <a href="{% url 'main:show_experience' %}">Experience</a>
+                <a href="#projects">Projects</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- MAIN CONTENT(PROJECT) -->
+    <main>
+        <section class="projects-section" id="projects">
+            <div class="container">
+                <p class="section-kicker">Karya &amp; Publikasi</p>
+                <h1 class="section-title">Projects</h1>
+                <div class="projects-grid">
+                    <article class="project-card">
+                        <div class="project-content">
+                            <span class="badge">ARTICLE &bull; JAN 2025</span>
+                            <h3>Budaya FOMO</h3>
+                            <p>An insightful article analyzing the phenomenon of Fear of Missing Out (FOMO) and its social implications.</p>
+                            <a href="https://medium.com/@2223-k.nalani/budaya-fomo-87d6f0d1c7e1" target="_blank" rel="noopener noreferrer" class="project-link">Read on Medium &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-content">
+                            <span class="badge">EXHIBITION &bull; JAN 2025</span>
+                            <h3>Muga Exhibition</h3>
+                            <p>Collaborated and contributed as part of the creative and execution team for SMA Muhammadiyah 3 Jakarta's school exhibition showcase.</p>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-content">
+                            <span class="badge">FILM REVIEW &bull; APR 2024</span>
+                            <h3>Resensi Toy Story 4</h3>
+                            <p>A comprehensive narrative and visual critique reviewing character arcs and moral values presented in Toy Story 4.</p>
+                            <a href="https://nalanichandraa1.blogspot.com/2024/04/resensi-toy-story-4-khalisha-nalani.html" target="_blank" rel="noopener noreferrer" class="project-link">Read on Blogspot &rarr;</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+        </div>
+    </footer>
+</body>
+</html>
