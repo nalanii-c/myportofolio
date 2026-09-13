@@ -1,0 +1,29 @@
+﻿[
+    {
+        "model": "main.skill",
+        "pk": 1,
+        "fields": {
+            "name": "Won 9 International Ice Skating Competition",
+            "category": "Figure Skater",
+            "description": "Secured 9 medals in ice skating championships across solo and team categories, comprising 2 Gold (Spotlight, Surprise), 4 Silver (Solo Comp, Team Events), and 3 Bronze (Technical with Music, Stroking)."
+        }
+    },
+    {
+        "model": "main.skill",
+        "pk": 2,
+        "fields": {
+            "name": "Completed memorization of 6 juz of the Holy Quran",
+            "category": "Memorizer of the Holy Quran",
+            "description": "Successfully memorized 6 juz of the Holy Quran over 3 years during school."
+        }
+    },
+    {
+        "model": "main.skill",
+        "pk": 3,
+        "fields": {
+            "name": "Graphic Design",
+            "category": "Graphic Designer",
+            "description": "Crafting compelling promotional assets, social media content, and event visual identities with clean typography and balanced layouts."
+        }
+    }
+]

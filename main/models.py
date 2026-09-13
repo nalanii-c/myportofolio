@@ -47,3 +47,24 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
+
+    #Education
+class Education(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    year = models.CharField(max_length=50)
+    institution = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.institution} ({self.year})"
+
+#Project
+class Project(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    category = models.CharField(max_length=100)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    link = models.URLField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
