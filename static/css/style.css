@@ -250,14 +250,14 @@ h1, .brand {
 
 /* Kotak Card ala Lempengan Batu */
 .project-card {
-  background: #b3b7ba; /* warna abu-abu tengah lempengan */
+  background: #b3b7ba; /* warna abu2 tengah lempengan */
   border-radius: 12px; /* sudut melengkung persis gambar batu */
   padding: 24px;
   
   /* bingkai luar abu batu gelap */
   border: 6px solid #545b62; 
   
-  /* garis terang putih di dalam + tebal batu di bawah */
+  /* garis terang putih di dalam dan ada tebal batu di bawah */
   box-shadow: 
     inset 3px 3px 0px rgba(255, 255, 255, 0.7),
     0px 6px 0px #343a40; 
@@ -370,7 +370,6 @@ h1, .brand {
     font-size: 0.85rem;
     font-weight: 600;
 }
-.experience-status { display: none !important; }
 
 .experience-status { display: none !important; }
 
@@ -442,4 +441,123 @@ h1, .brand {
 .skill-description,
 .empty-state {
     color: var(--text-muted);
+}
+.project-form {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    font: inherit;
+    transition:
+        border-color 0.2s ease,
+        outline-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent);
+}
+
+.form-error {
+    color: #000000;
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+}
+
+.button {
+    display: inline-block;
+    height: fit-content;
+    border: 0;
+    border-radius: var(--radius);
+    padding: 0.65rem 1rem;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.button-secondary {
+    background: var(--ink);
+}
+
+/* ukuran foto di dalam card project */
+.project-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+/* ukuran foto di dalam card project rasio 3:4 */
+.project-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+/* sembunyikan foto di project card */
+.project-card img {
+  display: none;
+}
+
+/* ukuran foto project rasio 3:4 */
+.project-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+
+/* card project jadi gaya batu abu, sama seperti experience */
+.project-grid .experience-card {
+  background: #b3b7ba;
+  border: 6px solid #545b62;
+  border-radius: 12px;
+  box-shadow:
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 6px 0px #343a40;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.project-grid .experience-card:hover {
+  transform: translateY(2px);
+  box-shadow:
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 4px 0px #343a40;
+}
+
+.project-grid .experience-category {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #737373;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 2px solid #383838;
+  margin-bottom: 8px;
 }
