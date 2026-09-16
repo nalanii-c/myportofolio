@@ -1,42 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - {{ name }}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <!-- HEADER -->
-    <header class="site-header">
-        <div class="container">
-            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-            <nav>
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="{% url 'main:show_education' %}">Education</a>
-                <a href="{% url 'main:show_skills' %}">Skills</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
-                <a href="{% url 'main:show_projects' %}">Projects</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- MAIN CONTENT (Profile) -->
+  {% extends 'base.html' %}
+  {% block content %}
     <main>
         <section class="hero" id="profile">
             <div class="container hero-grid">
-
                 <div class="hero-identity">
-                    <p class="hero-kicker">Information Systems &middot; Universitas Indonesia</p>
+                    <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
                     <h1>{{ name }}</h1>
                 </div>
-
+                <div class="hero-photo">
+                    <div class="photo-block"></div>
+                    <img class="avatar" src="/static/img/burhan.png" alt="Photo of {{ name }}">
+                </div>
                 <div class="hero-details">
                     <p class="bio">{{ bio }}</p>
-
                     <dl class="meta-list">
                         <div class="meta-row">
                             <dt>NPM</dt>
@@ -47,28 +23,21 @@
                             <dd>{{ study_program }}</dd>
                         </div>
                     </dl>
-
+                    <ul class="skills">
+                        <li>Programming Fundamentals</li>
+                        <li>Java</li>
+                        <li>Python</li>
+                        <li>Data Structures</li>
+                        <li>Teaching &amp; Mentoring</li>
+                    </ul>
                     <div class="social-links">
-                        <a class="social-link" href="{{ github_url }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-                        <a class="social-link" href="{{ linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                        <a class="social-link" href="mailto:{{ email }}">Email</a>
+                        <a href="https://github.com/" class="social-link">GitHub</a>
+                        <a href="https://linkedin.com/" class="social-link">LinkedIn</a>
+                        <a href="mailto:burhan@example.com" class="social-link">Email</a>
                     </div>
                 </div>
-
-                <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/foto_nala.jpeg" alt="Photo of {{ name }}">
-                </div>
-
             </div>
         </section>
+      ...
     </main>
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
-        </div>
-    </footer>
-</body>
-</html><!-- trigger redeploy -->
+  {% endblock content %}
