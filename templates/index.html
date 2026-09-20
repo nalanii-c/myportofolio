@@ -1,5 +1,6 @@
-  {% extends 'base.html' %}
-  {% block content %}
+{% extends 'base.html' %}
+
+{% block content %}
     <main>
         <section class="hero" id="profile">
             <div class="container hero-grid">
@@ -9,6 +10,7 @@
                 </div>
                 <div class="hero-photo">
                     <div class="photo-block"></div>
+                    <!-- Sesuaikan path foto atau placeholder jika belum ada -->
                     <img class="avatar" src="/static/img/foto_nala.jpeg" alt="Photo of {{ name }}">
                 </div>
                 <div class="hero-details">
@@ -20,18 +22,16 @@
                         </div>
                         <div class="meta-row">
                             <dt>Program</dt>
-                            <dd>{{ study_program }}</dd>
+                            <dd>S1 Information Systems</dd>
                         </div>
                     </dl>
-                    <ul class="skills">
                     <div class="social-links">
-                        <a href="https://github.com/" class="social-link">GitHub</a>
-                        <a href="https://linkedin.com/" class="social-link">LinkedIn</a>
-                        <a href="mailto:burhan@example.com" class="social-link">Email</a>
+                        <a href="{{ github_url }}" class="social-link" target="_blank">GitHub</a>
+                        <a href="{{ linkedin_url }}" class="social-link" target="_blank">LinkedIn</a>
+                        <a href="mailto:{{ email }}" class="social-link">Email</a>
                     </div>
                 </div>
             </div>
         </section>
-      ...
     </main>
-  {% endblock content %}
+{% endblock content %}
