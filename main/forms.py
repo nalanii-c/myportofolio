@@ -113,13 +113,13 @@ class SkillForm(ModelForm):
         model = Skill
         fields = [
             "name",
-            "proficiency_level",
+            "proficiency",
             "category",
         ]
 
         labels = {
             "name": "Nama Skill",
-            "proficiency_level": "Tingkat Keahlian",
+            "proficiency": "Tingkat Keahlian",
             "category": "Kategori",
         }
 
@@ -130,7 +130,7 @@ class SkillForm(ModelForm):
                     "maxlength": 100,
                 }
             ),
-            "proficiency_level": TextInput(
+            "proficiency": TextInput(
                 attrs={
                     "placeholder": "Advanced / Intermediate",
                 }
@@ -146,49 +146,29 @@ class SkillForm(ModelForm):
 class EducationForm(ModelForm):
     class Meta:
         model = Education
-        fields = [
-            "institution",
-            "degree",
-            "field_of_study",
-            "started_at",
-            "ended_at",
-        ]
-
+        fields = ['year', 'institution', 'description']
         labels = {
+            "year": "Tahun",
             "institution": "Nama Institusi",
-            "degree": "Gelar",
-            "field_of_study": "Bidang Studi",
-            "started_at": "Tanggal Mulai",
-            "ended_at": "Tanggal Selesai",
+            "description": "Deskripsi",
         }
-
         widgets = {
+            "year": TextInput(
+                attrs={
+                    "placeholder": "2024 - Sekarang",
+                    "maxlength": 50,
+                }
+            ),
             "institution": TextInput(
                 attrs={
                     "placeholder": "Universitas Indonesia",
-                    "maxlength": 255,
+                    "maxlength": 200,
                 }
             ),
-            "degree": TextInput(
+            "description": Textarea(
                 attrs={
-                    "placeholder": "Sarjana",
-                    "maxlength": 100,
-                }
-            ),
-            "field_of_study": TextInput(
-                attrs={
-                    "placeholder": "Information Systems",
-                    "maxlength": 100,
-                }
-            ),
-            "started_at": DateInput(
-                attrs={
-                    "type": "date",
-                }
-            ),
-            "ended_at": DateInput(
-                attrs={
-                    "type": "date",
+                    "placeholder": "Deskripsi pendidikan...",
+                    "rows": 3,
                 }
             ),
         }
