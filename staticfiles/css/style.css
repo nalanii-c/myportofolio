@@ -1,0 +1,563 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --ink: #1c1917;
+    --paper: #faf6f0;
+    --accent: #446788;
+    --accent-dark: #100f0e;
+    --line: #0f0f0f;
+    --text-muted: #666459;
+    --radius: 4px;
+}
+
+body {
+    font-family: apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background-color: var(--paper);
+    line-height: 1.6;
+}
+
+h1, .brand {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.site-header {
+    border-bottom: 1px solid var(--line);
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+}
+
+.brand {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.site-header nav {
+    display: flex;
+    gap: 2rem;
+}
+
+.site-header nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.hero {
+    padding: 4.5rem 0 5rem;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    grid-template-areas:
+        "identity photo"
+        "details photo";
+    gap: 1.5rem 3rem;
+}
+
+/* Animasi tulisan*/
+.hero-identity {
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 0.95;
+    animation: floatNama 3s ease-in-out infinite;
+}
+/* Animasi naik turun untuk tulisan nama panjang*/
+@keyframes floatNama {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.hero-details {
+    grid-area: details;
+}
+
+.hero-kicker {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.hero-identity h1 {
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 0.95;
+}
+
+.bio {
+    color: var(--text-muted);
+    max-width: 480px;
+    margin-bottom: 1.5rem;
+}
+
+.meta-list {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.meta-row dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.15rem;
+}
+
+.meta-row dd {
+    font-weight: 600;
+}
+
+.social-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.social-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #2b2b2b; /* teks abu gelap */
+    background-color: #b0b0b0; /* abu batu */
+    
+    border-radius: 4px; /* lekukan sedikit gaya ujung batu */
+    border: 3px solid #5a5a5a; /* outline batu gelap */
+    
+    /* bayangan tebal di bawah biar efek batunya timbul */
+    box-shadow: 0px 4px 0px #383838; 
+    
+    padding: 0.5rem 1.1rem;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.social-link:hover {
+    background-color: #c2c2c2; /* batu sedikit terang pas disentuh */
+    transform: translateY(2px); /* efek batu ditekan */
+    box-shadow: 0px 2px 0px #383838;
+}
+
+.hero-photo {
+    grid-area: photo;
+    align-self: center;
+    position: relative;
+}
+
+.photo-block {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 100%;
+    height: 100%;
+    background-color: #383838; /* bayangan dasar batu tebal di belakang */
+    border-radius: 12px;
+    z-index: 0;
+}
+
+.avatar {
+   position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px; /* sudut tumpul batu */
+    border: 6px solid #545b62; /* bingkai luar batu gelap tebal */
+    box-shadow: inset 3px 3px 0px rgba(255, 255, 255, 0.7); /* garis terang tipis di dalam */
+    transition: transform 0.2s ease;
+    cursor: pointer; /* kursor beranimasi */
+}
+
+/* Efek PFP*/
+.avatar:hover {
+    transform: translateY(-6px);
+
+}
+
+.site-footer {
+    padding: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--line);
+}
+
+@media (max-width: 600px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "identity"
+            "photo"
+            "details";
+    }
+
+    .hero-photo {
+        max-width: 220px;
+    }
+
+    .social-links {
+        justify-content: flex-start;
+    }
+}
+
+/* Styling Section Projects */
+.projects-section {
+  padding: 60px 20px;
+  background-color: #f8fafc;
+}
+
+.projects-section .container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1e293b;
+  position: relative;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Kotak Card ala Lempengan Batu */
+.project-card {
+  background: #b3b7ba; /* warna abu2 tengah lempengan */
+  border-radius: 12px; /* sudut melengkung persis gambar batu */
+  padding: 24px;
+  
+  /* bingkai luar abu batu gelap */
+  border: 6px solid #545b62; 
+  
+  /* garis terang putih di dalam dan ada tebal batu di bawah */
+  box-shadow: 
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 6px 0px #343a40; 
+    
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.project-card:hover {
+  transform: translateY(2px); /* efek tertekan */
+  box-shadow: 
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 4px 0px #343a40;
+}
+
+/* Judul di dalam kotaknya */
+.project-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+  color: #1a1a1a;
+}
+
+/* Teks isi di dalam kotaknya */
+.project-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #2e2e2e;
+}
+
+/* Tag kecil di atas kotak */
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  background-color: #737373; /* batu abu sedang */
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 2px solid #383838;
+  margin-bottom: 12px;
+}
+
+/* Responsif Mobile */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .projects-section {
+    padding: 40px 16px;
+  }
+}
+
+.experience-section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--line);
+}
+
+.section-kicker {
+    color: var(--accent-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.experience-section h1 {
+    margin: 0.4rem 0 1.5rem;
+    font-size: 2rem;
+}
+
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.experience-card {
+    padding: 1.25rem;
+    background-color: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.experience-category {
+    color: var(--accent-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.experience-card h2 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.experience-description,
+.empty-state {
+    color: var(--text-muted);
+}
+
+.experience-status {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.experience-status { display: none !important; }
+
+.education-section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--line);
+}
+
+.education-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.education-card {
+    padding: 1.25rem;
+    background-color: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.education-badge {
+    color: var(--accent-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.education-card h2 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.education-card p {
+    color: var(--text-muted);
+}
+
+.skills-section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--line);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.skill-card {
+    padding: 1.25rem;
+    background-color: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+.skill-category {
+    color: var(--accent-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.skill-card h2 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.skill-proficiency,
+.skill-description,
+.empty-state {
+    color: var(--text-muted);
+}
+.project-form {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    font: inherit;
+    transition:
+        border-color 0.2s ease,
+        outline-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent);
+}
+
+.form-error {
+    color: #000000;
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+}
+
+.button {
+    display: inline-block;
+    height: fit-content;
+    border: 0;
+    border-radius: var(--radius);
+    padding: 0.65rem 1rem;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.button-secondary {
+    background: var(--ink);
+}
+
+/* ukuran foto di dalam card project */
+.project-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+/* ukuran foto di dalam card project rasio 3:4 */
+.project-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+/* sembunyikan foto di project card */
+.project-card img {
+  display: none;
+}
+
+/* ukuran foto project rasio 3:4 */
+.project-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+
+/* card project jadi gaya batu abu, sama seperti experience */
+.project-grid .experience-card {
+  background: #b3b7ba;
+  border: 6px solid #545b62;
+  border-radius: 12px;
+  box-shadow:
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 6px 0px #343a40;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.project-grid .experience-card:hover {
+  transform: translateY(2px);
+  box-shadow:
+    inset 3px 3px 0px rgba(255, 255, 255, 0.7),
+    0px 4px 0px #343a40;
+}
+
+.project-grid .experience-category {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #737373;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 2px solid #383838;
+  margin-bottom: 8px;
+}
