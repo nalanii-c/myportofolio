@@ -2,42 +2,330 @@
 {% load static %}
 
 {% block content %}
-<section class="projects-section" id="experience">
-  <div class="container">
-    <span class="section-kicker">PERJALANAN SAYA SEJAUH INI</span>
-    <h1 class="section-title">Experience</h1>
 
-    <div class="projects-grid">
-      {% for exp in experiences %}
-      <div class="project-card">
-        {% if exp.category %}
-          <span class="badge">{{ exp.category }}</span>
-        {% endif %}
-        
-        <!-- Judul Otomatis -->
-        <h3>
-          <a href="{{ exp.linkedin_url|default:'#' }}" target="_blank" style="color: white; text-decoration: none;">
-            {{ exp.title }}
-          </a>
-        </h3>
+    <main>
+        <section class="projects-section" id="experience">
+            <div class="container">
+                <span class="section-kicker">PERJALANAN SAYA SEJAUH INI</span>
+                <h2 class="section-title">Experience & Achievements</h2>
+                
+                <!-- TIMELINE CONTAINER -->
+                <div class="edu-timeline">
 
-        <p>{{ exp.description }}</p>
+                    <!-- 1. Staff Media -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">💼</div>
+                            <div class="edu-body">
+                                <h3>Staff Media</h3>
+                                <span class="edu-program">BEM Fakultas Ilmu Komputer Universitas Indonesia</span>
+                                <div class="edu-date">
+                                    <span>📅</span> May 2026 - Present (Remote)
+                                </div>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Graphic Design</span>
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/graphic_design.jpg' %}" alt="Staff Media">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!-- 2. HR Visual Design COMPFEST -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">💼</div>
+                            <div class="edu-body">
+                                <h3>Human Resources Of Visual Design</h3>
+                                <span class="edu-program">COMPFEST</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Mar 2026 - Present (Remote)
+                                </div>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Graphic Design</span>
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/creative_compfest.jpeg' %}" alt="HR Visual Design COMPFEST">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- Foto/Gambar Otomatis -->
-        {% if exp.image_url %}
-        <div class="skill-image-wrap">
-          <img src="{{ exp.image_url }}" alt="{{ exp.title }}">
+                    <!-- 3. TRIAKSANG 2026 -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🎯</div>
+                            <div class="edu-body">
+                                <h3>TRIAKSANG 2026</h3>
+                                <span class="edu-program">ARUNG Fasilkom UI 2025 &bull; Depok, West Java</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Mar 2026
+                                </div>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">PDD</span>
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/triaksang_2026.jpg' %}" alt="TRIAKSANG 2026">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Member GDGoC UI -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">💻</div>
+                            <div class="edu-body">
+                                <h3>Member</h3>
+                                <span class="edu-program">Google Developer Groups on Campus UI (GDGoC UI)</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Jan 2026 - Present (Hybrid)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. RISTEK Marcomms -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">💼</div>
+                            <div class="edu-body">
+                                <h3>Intern Staff at Marketing and Communication</h3>
+                                <span class="edu-program">RISTEK Fakultas Ilmu Komputer Universitas Indonesia</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Nov 2025
+                                </div>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Marketing</span>
+                                    <span class="skill-tag">Communication</span>
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/ristek_marcomms_intern.jpg' %}" alt="RISTEK Marcomms">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Open House Fasilkom -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🏛️</div>
+                            <div class="edu-body">
+                                <h3>Open House Fasilkom</h3>
+                                <span class="edu-program">Open House Fasilkom UI &bull; Depok, West Java</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Nov 2025
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/open_house_fasilkom.jpg' %}" alt="Open House Fasilkom">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. CS Connect 2025 -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🤝</div>
+                            <div class="edu-body">
+                                <h3>CS Connect 2025</h3>
+                                <span class="edu-program">University of Indonesia</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Nov 2025
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/csconnect.png' %}" alt="CS Connect 2025">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. Sosial Project Fasilkom UI 2025 -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🌍</div>
+                            <div class="edu-body">
+                                <h3>Sosial Project Fasilkom UI 2025</h3>
+                                <span class="edu-program">University of Indonesia</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Sep 2025
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/sosial_project_yossudarso.jpg' %}" alt="Sosial Project">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 9. Kumon -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">📚</div>
+                            <div class="edu-body">
+                                <h3>Kumon</h3>
+                                <span class="edu-program">Kumon Indonesia (Kumon until level N)</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Jul 2014 - Jul 2025
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 10. Graduated High School -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🎓</div>
+                            <div class="edu-body">
+                                <h3>Graduated with Final Score 94,73</h3>
+                                <span class="edu-program">SMA Muhammadiyah 3 Jakarta</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Mar 2025 - Jun 2025
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 11. Eligible Student -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🏆</div>
+                            <div class="edu-body">
+                                <h3>Eligible Student Ranked 12th (Average Score 92.53)</h3>
+                                <span class="edu-program">SMA Muhammadiyah 3 Jakarta</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Feb 2025 - Mar 2025
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 12. Muga Exhibition -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🎨</div>
+                            <div class="edu-body">
+                                <h3>Muga Exhibition</h3>
+                                <span class="edu-program">SMA Muhammadiyah 3 Jakarta</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Jan 2025
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/muga_exhibition_lostera.jpg' %}" alt="Muga Exhibition">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 13. Al-Qur'an Memorization -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">📖</div>
+                            <div class="edu-body">
+                                <h3>Memorized 6 Juz of Al-Quran</h3>
+                                <span class="edu-program">SMA Muhammadiyah 3 Jakarta</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Mar 2023 - Feb 2025
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/hafalan_nala.png' %}" alt="Syahadah 6 Juz">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 14. Won Ice Skating International 2023 -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">⛸️</div>
+                            <div class="edu-body">
+                                <h3>Won Ice Skating International 2023</h3>
+                                <span class="edu-program">International Ice Skating Competition</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Feb 2023
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/foto_lomba.jpeg' %}" alt="Ice Skating Competition">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 15. Student Of The Month -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">⭐</div>
+                            <div class="edu-body">
+                                <h3>Student Of The Month</h3>
+                                <span class="edu-program">SMA Muhammadiyah 3 Jakarta</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Jan 2022 - Feb 2023
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/student_of_the_month.jpg' %}" alt="Student Of The Month">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 16. MSC Competition -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">🏅</div>
+                            <div class="edu-body">
+                                <h3>Madrasah Integrated Science Competition (MSC)</h3>
+                                <span class="edu-program">Bidang Matematika & Kimia</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Nov 2022
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/msc_medal.jpg' %}" alt="MSC Medal">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 17. Ice Skater BX Rink -->
+                    <div class="edu-item">
+                        <div class="edu-dot"></div>
+                        <div class="edu-card">
+                            <div class="edu-icon">⛸️</div>
+                            <div class="edu-body">
+                                <h3>Ice Skater</h3>
+                                <span class="edu-program">BX Rink - Bintaro Jaya Xchange (Won 9 International Competitions)</span>
+                                <div class="edu-date">
+                                    <span>📅</span> Jan 2017 - Present
+                                </div>
+                                <div class="card-image">
+                                    <img src="{% static 'img/figure_skater.jpg' %}" alt="Ice Skater BX Rink">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Khalisha Nalani Chandra. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
-        {% elif exp.image %}
-        <div class="skill-image-wrap">
-          <img src="{{ exp.image.url }}" alt="{{ exp.title }}">
-        </div>
-        {% endif %}
-      </div>
-      {% empty %}
-      <p class="empty-state">Belum ada data experience.</p>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endblock %}
+    </footer>
+{% endblock content %}
