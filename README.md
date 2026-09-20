@@ -45,3 +45,42 @@ Kemarin pas deploy ke PWS dan ngurusin data statis/dinamis, kebaca banget bedany
 Waktu aku nambahin field `featured = models.BooleanField(default=False)` di model `Project` buat nandain portofolio unggulan:
 1. Jalankan `python manage.py makemmigrations` $\rightarrow$ Django ngebuat file `0002_project_featured.py`.
 2. Jalankan `python manage.py migrate` $\rightarrow$ tabel `portfolio_project` di SQLite/database beneran ketambahan kolom `featured`.
+
+### Tugas 3
+
+1. Selama aku mengerjakan proyek portofolio ini, aku menggunakan `ModelForm` di Django alih2 membuat form HTML secara manual karena jauh lebih praktis dan efisien. `ModelForm` secara otomatis menghubungkan *fields* form dengan model Django (`Project`, `Experience`, `Skill`, `Education`) yang sudah kubuat, jadi aku tidak perlu menulis ulang kode HTML untuk setiap input dan melakukan validasi secara manual. Selain itu, aku juga wajib menambahkan tag `{% csrf_token %}` pada form HTML-ku untuk melindungi aplikasi dari serangan *Cross-Site Request Forgery* (CSRF), memastikan setiap pengiriman data POST (seperti saat aku menambahkan atau memperbarui data portofolio) benar2 berasal dari diriku sendiri yang sah di dalam sesi aplikasi tersebut.
+
+2. Pada Tutorial 03, kami membahas format data JSON dan XML. Dalam pengembangan aplikasi web modern, aku melihat bahwa JSON jauh lebih disukai dibandingkan XML karena strukturnya yang jauh lebih ringan, ringkas, tidak memerlukan *closing tag* yang panjang, serta sangat mudah dibaca dan diproses secara langsung oleh JavaScript di sisi *frontend*. Hal ini membuat proses transfer data asinkron antar komponen web menjadi jauh lebih cepat dan efisien.
+
+3. Alur yang terjadi saat aku menggunakan fungsi *view* untuk mengembalikan data portofolio (seperti data proyek atau pengalamanku) dalam bentuk JSON dimulai dengan *view* mengambil data dari *database* menggunakan *QuerySet* Django (misalnya `Project.objects.all()`). Karena objek model Django berupa kumpulan data Python yang tidak bisa langsung dibaca oleh protokol HTTP/JavaScript mentah, aku perlu melakukan proses *serialization* (mengubah objek model menjadi format standar yang bisa dibaca mesin, menggunakan *serializer* bawaan Django atau `JsonResponse`). Setelah data berhasil di *serialize* menjadi format JSON, *view* akan mengembalikan data tersebut sebagai *HTTP response* ke klien, sehingga data portofolioku bisa diakses atau diolah lebih lanjut dengan mudah oleh *frontend*.
+
+
+
+## 🤖 AI Disclosure & Evaluasi Kritis Perjalanan Proyek (Tugas 1 - 3)
+
+Dalam pengembangan portofolio web berbasis Django ini dari awal hingga tahap implementasi form dan JSON API, aku berkolaborasi dengan Gemini sebagai *AI personal collaborator*. 
+
+Berikut adalah rangkuman peran AI serta evaluasi kritis selama pengerjaan Tugas 1 hingga Tugas 3:
+
+### 1. Peran AI dalam Setiap Tahapan
+* **Tugas 1 (HTML & CSS Semantik):** AI membantu memberikan referensi kerangka struktur elemen semantik (`<section>`, `<article>`, `<nav>`) serta *best practice* dalam mendesain *grid layout* yang responsif menggunakan *media queries*.
+
+* **Tugas 2 (Django Models & Migrations):** AI mendampingi proses perancangan struktur model (`Project`, `Experience`, `Skill`, `Education`) serta menjelaskan perbedaan esensial antara `makemmigrations` dan `migrate` saat menerapkannya ke database.
+
+* **Tugas 3 (ModelForm, CSRF, & JSON API):** AI membantu menyusun draf awal kelas `ModelForm` untuk masing2 model serta logika serialisasi data *query set* Django menjadi format JSON untuk kebutuhan asinkron.
+
+### 2. Analisis Kritis terhadap Keterbatasan AI
+Meskipun sangat membantu mempercepat penulisan draf kode, AI memiliki beberapa keterbatasan nyata selama proses pengembangan:
+
+* **Ketidaksesuaian Konteks Lokal:** Kode *boilerplate* form yang dihasilkan AI seringkali menggunakan nama *field* generik yang tidak sinkron secara langsung dengan struktur model asliku (misalnya pada atribut `proficiency` di model *Skill* atau `year` di *Education*).
+
+* **Kendala Lingkungan Deployment (PWS):** AI terkadang memberikan asumsi konfigurasi database lokal, sehingga ketika di deploy ke server PWS sempat terjadi *operational error* atau *timeout* akibat perbedaan variabel lingkungan (*environment variables*) yang harus diatasi secara manual melalui penyesuaian konfigurasi *settings.py*.
+
+### 3. Perbaikan dan Kontrol Manual yang Dilakukan
+Aku tidak menelan mentah2 seluruh keluaran kode dari AI. Kontrol penuh tetap berada di tanganku melalui langkah2 perbaikan manual berikut:
+
+* **Validasi dan Penyesuaian Field Form:** Memeriksa ulang file `forms.py` agar secara presisi mengecualikan *field* `id` dan *timestamp*, serta memastikan *widgets* dan *labels* sesuai dengan model Django yang kubuat sendiri.
+
+* **Debugging Mandiri:** Menganalisis pesan *error* di terminal secara mandiri, memperbaiki kesalahan *mapping* URL dan view, serta menjalankan perintah *migration* serta *testing* secara berulang hingga aplikasi berjalan mulus tanpa error.
+
+* **Penulisan Narasi Refleksi:** Seluruh jawaban refleksi konseptual (mulai dari alasan pemilihan elemen semantik, alur HTTP request, hingga perbandingan JSON vs XML) disusun sepenuhnya menggunakan pemahaman dan bahasaku sendiri.
