@@ -1,10 +1,25 @@
-﻿Nama  : Khalisha Nalani Chandra
-NPM   : 2506625041
-Kelas : PBP A
+﻿# 🚀 Personal Portfolio Website - Django
 
-Hobi : Coding & Ice Skating
+[![Status](https://img.shields.io/badge/Status-Completed-success?style=flat-square)]()
+[![Django](https://img.shields.io/badge/Django-5.x-092E20?style=flat-square&logo=django&logoColor=white)]()
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)]()
+[![Campus](https://img.shields.io/badge/Univ-Universitas%20Indonesia-blue?style=flat-square)]()
 
-### Tugas 1
+---
+
+## 👩‍💻 Identitas Mahasiswa
+| Atribut | Keterangan |
+| :--- | :--- |
+| **Nama** | Khalisha Nalani Chandra |
+| **NPM** | 2506625041 |
+| **Kelas** | PBP A |
+| **Program Studi** | Sistem Informasi |
+| **Hobi** | Coding & Ice Skating |
+
+---
+
+## 📚 Refleksi Pembelajaran
+### 🎨 Tugas 1: HTML & CSS Semantik
 
 1. Aku pake elemen semantik kayak `<section>`, `<article>`, `<header>`, sama `<nav>` buat nyusun halamannya. Bagian `<section>` aku bagi per blok utama (Profile, Education, Skills), terus tiap card di dalem gridnya (kayak riwayat pendidikan atau skill) aku bungkus pake `<article>` karena emang bisa berdiri sendiri sebagai satu unit konten. Enaknya, pas buka lagi kodenya beberapa hari kemudian, aku nggak perlu mikir lama buat nyari bagian mana yang mana. Beda banget kalau semuanya cuma `<div>` doang, pasti pusing sendiri nebak fungsinya apa.
 
@@ -12,15 +27,7 @@ Hobi : Coding & Ice Skating
 
 3. Karena ini web statis, aku nggak bisa nambah atau ngedit konten (misal ada pengalaman baru) tanpa ngoprek langsung file HTMLnya soalnya belum ada dashboard atau form admin. Kalau datanya makin banyak, pasti bakal repot banget buat maintain satu2. Makanya di iterasi berikutnya, aku pengen simpen data2 ini (Education, Skills, Experience) di database biar bisa di render dinamis lewat template Django, jadi tinggal update data tanpa harus bongkar susunan HTML lagi.
 
-## AI Disclosure
-
-Aku sempet pake Claude buat bantu nyiapin kerangka HTML di section Education dan Skills, sekaligus nentuin basic CSS-nya (grid layout, warna, sama efek hover) biar stylenya tetep senada sama desain dari Tutorial 01. Aku juga sempet diskusi buat dapet gambaran awal jawaban reflektif di atas.
-
-Tapi untuk pengerjaannya, isi datanya (riwayat pendidikan, skill, deskripsi) full aku isi sendiri, narasinya aku tulis ulang pake bahasaku sendiri, visualnya aku tes langsung di browser termasuk cek responsivitas mobilenya, dan proses commit sampai push ke GitHub juga aku handle sendiri.
-
-
-
-#TUGAS 2
+### ⚙️ Tugas 2: Django Models & Database Migration
 
 ### 1. Alur Request Halaman Portofolio Baru
 Waktu aku kemarin ngetes nambahin atau buka halaman portofolio, alurnya jalan kayak gini:
@@ -46,7 +53,7 @@ Waktu aku nambahin field `featured = models.BooleanField(default=False)` di mode
 1. Jalankan `python manage.py makemmigrations` $\rightarrow$ Django ngebuat file `0002_project_featured.py`.
 2. Jalankan `python manage.py migrate` $\rightarrow$ tabel `portfolio_project` di SQLite/database beneran ketambahan kolom `featured`.
 
-### Tugas 3
+### 📝 Tugas 3: ModelForm, CSRF, & JSON API
 
 1. Selama aku mengerjakan proyek portofolio ini, aku menggunakan `ModelForm` di Django alih2 membuat form HTML secara manual karena jauh lebih praktis dan efisien. `ModelForm` secara otomatis menghubungkan *fields* form dengan model Django (`Project`, `Experience`, `Skill`, `Education`) yang sudah kubuat, jadi aku tidak perlu menulis ulang kode HTML untuk setiap input dan melakukan validasi secara manual. Selain itu, aku juga wajib menambahkan tag `{% csrf_token %}` pada form HTML-ku untuk melindungi aplikasi dari serangan *Cross-Site Request Forgery* (CSRF), memastikan setiap pengiriman data POST (seperti saat aku menambahkan atau memperbarui data portofolio) benar2 berasal dari diriku sendiri yang sah di dalam sesi aplikasi tersebut.
 
@@ -56,7 +63,7 @@ Waktu aku nambahin field `featured = models.BooleanField(default=False)` di mode
 
 
 
-## 🤖 AI Disclosure & Evaluasi Kritis Perjalanan Proyek (Tugas 1 - 3)
+## 🤖 AI Disclosure & Evaluasi Kritis Perjalanan Proyek
 
 Dalam pengembangan portofolio web berbasis Django ini dari awal hingga tahap implementasi form dan JSON API, aku berkolaborasi dengan Gemini sebagai *AI personal collaborator*. 
 
