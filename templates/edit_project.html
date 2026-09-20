@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block meta %}
+    <title>Edit Project - {{ name }}</title>
+{% endblock meta %}
+{% block content %}
+    <main>
+        <section class="experience-section">
+            <div class="container" style="padding: 2rem; max-width: 600px; margin: 0 auto;">
+                <h1>Edit Project</h1>
+                <form method="post" class="project-form">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label for="{{ field.id_for_label }}" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">{{ field.label }}</label>
+                            <div style="width: 100%;">
+                                {{ field }}
+                            </div>
+                            {% for error in field.errors %}
+                                <p class="form-error" style="color: red; font-size: 0.875rem;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="button" style="padding: 0.5rem 1rem; cursor: pointer;">Simpan Perubahan</button>
+                    <a href="{% url 'main:show_projects' %}" class="button button-secondary" style="margin-left: 0.5rem;">Batal</a>
+                </form>
+            </div>
+        </section>
+    </main>
+{% endblock content %}

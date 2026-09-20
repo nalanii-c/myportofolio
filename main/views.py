@@ -56,11 +56,11 @@ def edit_project(request, id):
         "form": form,
         "project": project,
     }
-    return render(request, "project_form.html", context)
+    return render(request, "edit_project.html", context)
 
 
-def delete_project(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+def delete_project(request, id):
+    project = get_object_or_404(Project, pk=id)
     if request.method == "POST":
         project.delete()
         messages.success(request, "Project berhasil dihapus!")
