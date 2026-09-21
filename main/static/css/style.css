@@ -12,7 +12,6 @@
     --line: #0f0f0f;
     --text-muted: #666459;
     --radius: 4px;
-
     --hero-bg: #0a0a0f;
     --hero-text: #f5f5f7;
     --hero-text-muted: #9a9aa5;
@@ -342,10 +341,11 @@ h1, .brand {
 }
 
 .section-title,
-.experience-section h1 {
+.experience-section h1,
+.projects-section .project-header h1 {
     font-size: 2rem;
     margin-bottom: 40px;
-    color: #1e293b;
+    color: #ffffff;
 }
 
 .section-kicker {
@@ -673,8 +673,10 @@ h1, .brand {
 .projects-section#experience .project-card h3 {
     color: #ffffff;
     font-size: 1.4rem;
-    margin-top: 0;
+    margin-top: 12px;
     margin-bottom: 4px;
+    position: relative;
+    z-index: 2;
 }
 
 .projects-section#experience .project-card p {
@@ -717,6 +719,28 @@ h1, .brand {
 
 .projects-section#experience .skill-view-btn:hover {
     opacity: 0.9;
+}
+
+.projects-section#experience .project-card,
+.projects-section#experience .project-card .card-actions,
+.projects-section#experience .project-card-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.projects-section#experience .project-card .card-actions,
+.projects-section#experience .project-card-actions {
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.projects-section#experience .project-card .button-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(160, 130, 255, 0.4);
+    color: #cdbfff;
 }
 
 .experience-section {
