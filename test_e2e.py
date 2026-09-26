@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 load_dotenv()
 
+#user n pw
 USER_PASSWORD = os.getenv("E2E_USER_PASSWORD")
 ADMIN_PASSWORD = os.getenv("E2E_ADMIN_PASSWORD")
 
