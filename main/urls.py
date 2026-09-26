@@ -7,7 +7,11 @@ from main.views import (
     show_experience, 
     show_main, 
     show_education, 
-    show_skills
+    show_skills,
+    register,
+    login_user,
+    logout_user,
+    toggle_star
 )
 
 app_name = 'main'
@@ -21,4 +25,13 @@ urlpatterns = [
     path('projects/create/', create_project, name='create_project'),
     path('projects/edit/<str:id>/', edit_project, name='edit_project'),
     path('projects/delete/<str:id>/', delete_project, name='delete_project'),
-]
+    path("register/", register, name="register"),
+    path("login/", login_user, name="login"),
+    path("logout/", logout_user, name="logout"),
+    # Tambahkan path ini ke dalam urlpatterns
+    path(
+    "projects/<uuid:project_id>/star/",
+    toggle_star,
+    name="toggle_star",
+),
+    ]

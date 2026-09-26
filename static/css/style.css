@@ -457,6 +457,7 @@ h1, .brand {
     display: block;
     margin-bottom: 0.4rem;
     font-weight: 700;
+    color: var(--hero-text);
 }
 
 .form-group input,
@@ -468,6 +469,7 @@ h1, .brand {
     border-radius: var(--radius);
     font: inherit;
     background-color: #ffffff;
+    color: var(--ink);
     transition: border-color 0.2s ease, outline-color 0.2s ease;
 }
 
@@ -477,10 +479,62 @@ h1, .brand {
     border-color: var(--accent);
 }
 
-.form-error {
-    color: #000000;
+.form-group .form-help,
+.form-group .form-help ul,
+.form-group .form-help li,
+.form-group small {
+    color: var(--hero-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.form-group .form-help {
+    margin-top: 0.35rem;
+}
+
+.form-group .form-help ul {
+    margin-top: 0.35rem;
+    padding-left: 1.2rem;
+}
+
+.form-error,
+.errorlist,
+.errorlist li {
+    color: #ff9c9c;
     font-size: 0.85rem;
     margin-top: 0.35rem;
+    list-style: none;
+    padding-left: 0;
+}
+
+.auth-footer,
+.auth-footer-text,
+form + p,
+.project-form + p {
+    color: var(--hero-text-muted);
+    margin-top: 1rem;
+}
+
+.auth-footer a,
+.auth-footer-text a,
+form + p a,
+.project-form + p a {
+    color: #b18aff;
+    font-weight: 600;
+}
+
+.auth-footer a:hover,
+.auth-footer-text a:hover,
+form + p a:hover,
+.project-form + p a:hover {
+    color: #cdbfff;
+}
+
+.auth-title,
+.project-form-header h1,
+.project-form-header h2 {
+    color: var(--hero-text);
+    margin-bottom: 1.5rem;
 }
 
 .button {
@@ -1268,4 +1322,25 @@ h1, .brand {
 
 .lightbox-close:hover {
     color: #a082ff;
+}
+.star-form {
+    display: inline;
+}
+
+.button-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--ink);
+}
+
+.button-star.is-starred {
+    background: var(--accent);
+}
+
+.star-count {
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    font-size: 0.8rem;
 }

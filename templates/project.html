@@ -9,11 +9,13 @@
                 <p class="section-kicker">Karya yang saya bangun</p>
                 <div class="project-header">
                     <h1>Projects</h1>
-                    <a href="{% url 'main:create_project' %}"
-                       class="button project-add-button">
-                        <span aria-hidden="true">+</span>
-                        Tambah Proyek
-                    </a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:create_project' %}"
+                           class="button project-add-button">
+                            <span aria-hidden="true">+</span>
+                            Tambah Proyek
+                        </a>
+                    {% endif %}
                 </div>
                 <form method="get"
                       action="{% url 'main:show_projects' %}"
@@ -29,7 +31,7 @@
                 <div class="projects-grid">
                     {% for project in project_list %}
                         <article class="project-card">
-                           
+                            
                             <div class="project-content">
                                 <span class="badge">{{ project.tech_stack }}</span>
                                 <h3>{{ project.title }}</h3>
@@ -55,7 +57,7 @@
                                 </div>
                             {% endif %}
 
-                           
+                            
                             <div class="project-card-actions">
                                 <div class="project-actions">
                                     {% if project.title == "Budaya FOMO" %}
@@ -69,7 +71,12 @@
                                     {% endif %}
                                     
                                     <a href="{% url 'main:edit_project' project.id %}" class="button button-secondary">Edit Proyek</a>
-                                    {% include "components/project_delete_modal.html" with project=project %}
+                                    
+                                    {% include "components/project_star.html" with project=project %}
+
+                                    {% if user.is_superuser %}
+                                        {% include "components/project_delete_modal.html" with project=project %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </article>

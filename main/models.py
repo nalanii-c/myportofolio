@@ -1,8 +1,8 @@
 import uuid
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-#Experience
 class Experience(models.Model):
     EXPERIENCE_CHOICES = [
         ('internship', 'Internship'),
@@ -12,14 +12,14 @@ class Experience(models.Model):
         ('full-time', 'Full-Time'),
         ('freelance', 'Freelance'),
     ]
-    
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     description = models.TextField()
     category = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, default='full-time')
     thumbnail = models.URLField(blank=True, null=True)
     started_at = models.DateTimeField(default=timezone.now)
-    ended_at = models.DateTimeField(blank=True, null=True)
+    ended_at = models.DateTimeField(blank=True, null=True) 
 
     class Meta:
         ordering = ['-started_at']
@@ -31,7 +31,6 @@ class Experience(models.Model):
     def is_ongoing(self):
         return self.ended_at is None
     
-#Skill
 class Skill(models.Model):
     SKILL_CATEGORIES = [
         ('technical', 'Technical Skill'),
@@ -48,7 +47,6 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
-    #Education
 class Education(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     year = models.CharField(max_length=50)
@@ -58,7 +56,6 @@ class Education(models.Model):
     def __str__(self):
         return f"{self.institution} ({self.year})"
 
-#Project
 class Project(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
@@ -66,6 +63,9 @@ class Project(models.Model):
     tech_stack = models.CharField(max_length=255)
     project_url = models.URLField(blank=True)
     project_image_url = models.URLField(blank=True, max_length=500)
+    starred_by = models.ManyToManyField(
+        User, related_name="starred_projects", blank=True
+    )
 
     def __str__(self):
         return self.title

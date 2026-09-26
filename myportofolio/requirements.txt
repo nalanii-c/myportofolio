@@ -1,8 +1,0 @@
-django~=5.0
-gunicorn
-whitenoise
-psycopg2-binary
-requests
-urllib3
-python-dotenv
-dj-database-url
