@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 import django
 from dotenv import load_dotenv
@@ -75,7 +75,7 @@ def main():
         print("[PASS] Login user biasa dan cookie sesi berhasil")
 
         # 3. Cek pembatasan akses user biasa ke form tambah proyek
-        driver.get(f"{base_url}/projects/add/")
+        driver.get(f"{base_url}/projects/create/")
         assert "403" in driver.title or "Forbidden" in driver.page_source
         print("[PASS] Otorisasi user biasa dibatasi (403)")
 
@@ -89,7 +89,7 @@ def main():
         wait.until(EC.url_to_be(f"{base_url}/"))
         wait.until(EC.text_to_be_present_in_element((By.CLASS_NAME, "nav-user"), "admin_test"))
 
-        driver.get(f"{base_url}/projects/add/")
+        driver.get(f"{base_url}/projects/create/")
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "project-form")))
         print("[PASS] Akses superuser ke form proyek berhasil")
 
@@ -108,3 +108,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
