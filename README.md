@@ -63,6 +63,16 @@ Waktu aku nambahin field `featured = models.BooleanField(default=False)` di mode
 
 
 
+### 🔐 Tugas 4: Authorization, Role Editor, & Fitur Star
+
+1. Di Tugas 4 ini aku baru ngerti bedanya *authentication* sama *authorization*. Authentication itu ngecek kamu siapa (login, register, logout yang udah aku bikin di Tutorial 04), sedangkan authorization ngecek kamu boleh ngapain. Buat authorization, aku bikin peran baru **Editor** lewat Django `Group` yang cuma dikasih permission `change_project`, terus akun `editor1` aku masukin ke grup itu. Jadi ada 4 peran: pengunjung tanpa login, pengguna biasa, editor, sama pemilik portofolio (superuser). Superuser nggak perlu aku atur khusus karena `has_perm()` otomatis `True` buat dia.
+
+2. Pembatasan hak akses aku taruh di sisi server lewat decorator `perm_required` di `main/permissions.py`. Kalau belum login, dia di-redirect ke halaman login, tapi kalau udah login dan nggak punya hak, dia kena HTTP 403. Pas aku cek ulang, ternyata `edit_project` dari Tugas 3 sama sekali belum ada pengecekan, jadi siapa aja bisa ngedit cuma dengan buka URL-nya. Sekarang `create_project`, `edit_project`, dan `delete_project` semuanya pake decorator ini (permission `add`, `change`, `delete`). Di template, tombol Tambah, Edit, Hapus aku bungkus `{% if perms.main.add_project %}` dan sejenisnya, tapi itu cuma buat tampilan. Yang bikin aman tetep pengecekan di view, soalnya tombol yang disembunyiin masih bisa diakses lewat URL langsung.
+
+3. Buat fitur star, aku nambahin `ManyToManyField` ke `User` di model `Project` (`starred_by`) terus jalanin `makemigrations` dan `migrate`. Karena pake ManyToMany, satu user otomatis cuma bisa satu kali star per proyek. View `toggle_star` cuma nerima POST dan form-nya pake `{% csrf_token %}`. Aku pake POST karena aksinya ngubah data, jadi nggak boleh bisa dipicu lewat link biasa (GET) atau dari situs lain. Di halaman proyek ditampilin jumlah total star, dan tombolnya berubah jadi Star atau Unstar tergantung status user yang lagi login. Pengunjung yang belum login liat tombol "Login untuk star".
+
+4. Soal keamanan data, ada dua hal yang aku benerin. Pertama, tooltip tombol star awalnya nampilin username semua orang yang ngasih star, padahal itu nggak perlu dan bocor, jadi aku hapus. Kedua, endpoint JSON dari Tugas 3 pake `serializers.serialize` tanpa daftar field, jadi setelah ada `starred_by`, ID user ikut keluar. Sekarang field-nya aku batasin (`safe_fields`) supaya cuma data proyek yang keluar, dan aku juga nambahin route `projects/json/` karena sebelumnya belum ada di `urls.py`. Terakhir aku tes tiap peran satu2: anonim di-redirect ke login, `biasa1` kena 403, `editor1` cuma bisa edit, dan `admin_test` bisa semuanya.
+
 ## 🤖 AI Disclosure & Evaluasi Kritis Perjalanan Proyek
 
 Dalam pengembangan portofolio web berbasis Django ini dari awal hingga tahap implementasi form dan JSON API, aku berkolaborasi dengan Gemini sebagai *AI personal collaborator*. 
@@ -75,6 +85,8 @@ Berikut adalah rangkuman peran AI serta evaluasi kritis selama pengerjaan Tugas 
 * **Tugas 2 (Django Models & Migrations):** AI mendampingi proses perancangan struktur model (`Project`, `Experience`, `Skill`, `Education`) serta menjelaskan perbedaan esensial antara `makemmigrations` dan `migrate` saat menerapkannya ke database.
 
 * **Tugas 3 (ModelForm, CSRF, & JSON API):** AI membantu menyusun draf awal kelas `ModelForm` untuk masing2 model serta logika serialisasi data *query set* Django menjadi format JSON untuk kebutuhan asinkron.
+
+* **Tugas 4 (Authorization, Role Editor, & Star):** Untuk tugas ini aku pake Claude buat bantu nyusun decorator `perm_required`, cara bikin grup Editor lewat terminal, dan ngecek kebocoran data di JSON. Hasilnya tetep aku jalanin dan tes sendiri di tiap peran, dan ada beberapa error (kayak simbol bintang yang jadi `?` dan URL di `test_e2e.py` yang salah) yang harus aku benerin bareng.
 
 ### 2. Analisis Kritis terhadap Keterbatasan AI
 Meskipun sangat membantu mempercepat penulisan draf kode, AI memiliki beberapa keterbatasan nyata selama proses pengembangan:
