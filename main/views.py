@@ -8,6 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.forms import ProjectForm
+from main.permissions import perm_required
 from main.models import Education, Experience, Project, Skill
 
 
@@ -16,14 +17,15 @@ def get_projects_json(request):
     projects = Project.objects.all()
     if title_query:
         projects = projects.filter(title__icontains=title_query)
+    safe_fields = [f.name for f in Project._meta.concrete_fields if f.name != "id"]
     projects_json = serializers.serialize(
-        "json", projects, use_natural_foreign_keys=True
+        "json", projects, fields=safe_fields, use_natural_foreign_keys=True
     )
     return HttpResponse(projects_json, content_type="application/json")
 
 def show_projects(request):
     title_query = request.GET.get("title", "").strip()
-    projects = Project.objects.all()
+    projects = Project.objects.prefetch_related("starred_by")
     if title_query:
         projects = projects.filter(title__icontains=title_query)
     context = {
@@ -34,11 +36,8 @@ def show_projects(request):
     return render(request, "project.html", context)
 
 
-@login_required(login_url="/login/")
+@perm_required("main.add_project")
 def create_project(request):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-
     form = ProjectForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         form.save()
@@ -51,6 +50,7 @@ def create_project(request):
     return render(request, "project_form.html", context)
 
 
+@perm_required("main.change_project")
 def edit_project(request, id):
     project = get_object_or_404(Project, pk=id)
     form = ProjectForm(request.POST or None, instance=project)
@@ -66,11 +66,8 @@ def edit_project(request, id):
     return render(request, "edit_project.html", context)
 
 
-@login_required(login_url="/login/")
+@perm_required("main.delete_project")
 def delete_project(request, id):
-    if not request.user.is_superuser:
-        raise PermissionDenied
-
     project = get_object_or_404(Project, pk=id)
     if request.method == "POST":
         project.delete()
