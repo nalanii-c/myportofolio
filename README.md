@@ -59,19 +59,10 @@ Waktu aku nambahin field `featured = models.BooleanField(default=False)` di mode
 
 2. Pada Tutorial 03, kami membahas format data JSON dan XML. Dalam pengembangan aplikasi web modern, aku melihat bahwa JSON jauh lebih disukai dibandingkan XML karena strukturnya yang jauh lebih ringan, ringkas, tidak memerlukan *closing tag* yang panjang, serta sangat mudah dibaca dan diproses secara langsung oleh JavaScript di sisi *frontend*. Hal ini membuat proses transfer data asinkron antar komponen web menjadi jauh lebih cepat dan efisien.
 
-3. Alur yang terjadi saat aku menggunakan fungsi *view* untuk mengembalikan data portofolio (seperti data proyek atau pengalamanku) dalam bentuk JSON dimulai dengan *view* mengambil data dari *database* menggunakan *QuerySet* Django (misalnya `Project.objects.all()`). Karena objek model Django berupa kumpulan data Python yang tidak bisa langsung dibaca oleh protokol HTTP/JavaScript mentah, aku perlu melakukan proses *serialization* (mengubah objek model menjadi format standar yang bisa dibaca mesin, menggunakan *serializer* bawaan Django atau `JsonResponse`). Setelah data berhasil di *serialize* menjadi format JSON, *view* akan mengembalikan data tersebut sebagai *HTTP response* ke klien, sehingga data portofolioku bisa diakses atau diolah lebih lanjut dengan mudah oleh *frontend*.
+3. Alur yang terjadi saat aku menggunakan fungsi *view* untuk mengembalikan data portofolio (seperti data proyek atau pengalamanku) dalam bentuk JSON dimulaiFtug dengan *view* mengambil data dari *database* menggunakan *QuerySet* Django (misalnya `Project.objects.all()`). Karena objek model Django berupa kumpulan data Python yang tidak bisa langsung dibaca oleh protokol HTTP/JavaScript mentah, aku perlu melakukan proses *serialization* (mengubah objek model menjadi format standar yang bisa dibaca mesin, menggunakan *serializer* bawaan Django atau `JsonResponse`). Setelah data berhasil di *serialize* menjadi format JSON, *view* akan mengembalikan data tersebut sebagai *HTTP response* ke klien, sehingga data portofolioku bisa diakses atau diolah lebih lanjut dengan mudah oleh *frontend*.
 
 
 
-### 🔐 Tugas 4: Authorization, Role Editor, & Fitur Star
-
-1. Di Tugas 4 ini aku baru ngerti bedanya *authentication* sama *authorization*. Authentication itu ngecek kamu siapa (login, register, logout yang udah aku bikin di Tutorial 04), sedangkan authorization ngecek kamu boleh ngapain. Buat authorization, aku bikin peran baru **Editor** lewat Django `Group` yang cuma dikasih permission `change_project`, terus akun `editor1` aku masukin ke grup itu. Jadi ada 4 peran: pengunjung tanpa login, pengguna biasa, editor, sama pemilik portofolio (superuser). Superuser nggak perlu aku atur khusus karena `has_perm()` otomatis `True` buat dia.
-
-2. Pembatasan hak akses aku taruh di sisi server lewat decorator `perm_required` di `main/permissions.py`. Kalau belum login, dia di-redirect ke halaman login, tapi kalau udah login dan nggak punya hak, dia kena HTTP 403. Pas aku cek ulang, ternyata `edit_project` dari Tugas 3 sama sekali belum ada pengecekan, jadi siapa aja bisa ngedit cuma dengan buka URL-nya. Sekarang `create_project`, `edit_project`, dan `delete_project` semuanya pake decorator ini (permission `add`, `change`, `delete`). Di template, tombol Tambah, Edit, Hapus aku bungkus `{% if perms.main.add_project %}` dan sejenisnya, tapi itu cuma buat tampilan. Yang bikin aman tetep pengecekan di view, soalnya tombol yang disembunyiin masih bisa diakses lewat URL langsung.
-
-3. Buat fitur star, aku nambahin `ManyToManyField` ke `User` di model `Project` (`starred_by`) terus jalanin `makemigrations` dan `migrate`. Karena pake ManyToMany, satu user otomatis cuma bisa satu kali star per proyek. View `toggle_star` cuma nerima POST dan form-nya pake `{% csrf_token %}`. Aku pake POST karena aksinya ngubah data, jadi nggak boleh bisa dipicu lewat link biasa (GET) atau dari situs lain. Di halaman proyek ditampilin jumlah total star, dan tombolnya berubah jadi Star atau Unstar tergantung status user yang lagi login. Pengunjung yang belum login liat tombol "Login untuk star".
-
-4. Soal keamanan data, ada dua hal yang aku benerin. Pertama, tooltip tombol star awalnya nampilin username semua orang yang ngasih star, padahal itu nggak perlu dan bocor, jadi aku hapus. Kedua, endpoint JSON dari Tugas 3 pake `serializers.serialize` tanpa daftar field, jadi setelah ada `starred_by`, ID user ikut keluar. Sekarang field-nya aku batasin (`safe_fields`) supaya cuma data proyek yang keluar, dan aku juga nambahin route `projects/json/` karena sebelumnya belum ada di `urls.py`. Terakhir aku tes tiap peran satu2: anonim di-redirect ke login, `biasa1` kena 403, `editor1` cuma bisa edit, dan `admin_test` bisa semuanya.
 
 ## 🤖 AI Disclosure & Evaluasi Kritis Perjalanan Proyek
 
@@ -85,8 +76,6 @@ Berikut adalah rangkuman peran AI serta evaluasi kritis selama pengerjaan Tugas 
 * **Tugas 2 (Django Models & Migrations):** AI mendampingi proses perancangan struktur model (`Project`, `Experience`, `Skill`, `Education`) serta menjelaskan perbedaan esensial antara `makemmigrations` dan `migrate` saat menerapkannya ke database.
 
 * **Tugas 3 (ModelForm, CSRF, & JSON API):** AI membantu menyusun draf awal kelas `ModelForm` untuk masing2 model serta logika serialisasi data *query set* Django menjadi format JSON untuk kebutuhan asinkron.
-
-* **Tugas 4 (Authorization, Role Editor, & Star):** Untuk tugas ini aku pake Claude buat bantu nyusun decorator `perm_required`, cara bikin grup Editor lewat terminal, dan ngecek kebocoran data di JSON. Hasilnya tetep aku jalanin dan tes sendiri di tiap peran, dan ada beberapa error (kayak simbol bintang yang jadi `?` dan URL di `test_e2e.py` yang salah) yang harus aku benerin bareng.
 
 ### 2. Analisis Kritis terhadap Keterbatasan AI
 Meskipun sangat membantu mempercepat penulisan draf kode, AI memiliki beberapa keterbatasan nyata selama proses pengembangan:
@@ -103,3 +92,16 @@ Aku tidak menelan mentah2 seluruh keluaran kode dari AI. Kontrol penuh tetap ber
 * **Debugging Mandiri:** Menganalisis pesan *error* di terminal secara mandiri, memperbaiki kesalahan *mapping* URL dan view, serta menjalankan perintah *migration* serta *testing* secara berulang hingga aplikasi berjalan mulus tanpa error.
 
 * **Penulisan Narasi Refleksi:** Seluruh jawaban refleksi konseptual (mulai dari alasan pemilihan elemen semantik, alur HTTP request, hingga perbandingan JSON vs XML) disusun sepenuhnya menggunakan pemahaman dan bahasaku sendiri.
+
+### Tugas 4 (Authorization, Role Editor, & Star):
+
+AI membantu menjelaskan cara membuat grup `Editor` beserta permission-nya lewat terminal, menyusun decorator `perm_required` untuk pengecekan hak akses di sisi server, merapikan template agar tombol create, update, dan delete hanya muncul untuk pengguna yang berhak, serta memeriksa kebocoran data pada tooltip star dan endpoint JSON.
+
+* **Asumsi Struktur Proyek yang Meleset:** Pada Tugas 4, beberapa saran awal AI memakai nama URL dan folder yang berbeda dari proyekku, misalnya `/projects/add/` padahal routeku `/projects/create/`, atau folder `main/templates` padahal templateku ada di folder `templates/`. AI baru bisa menyesuaikan setelah aku menempelkan isi file dan output terminalnya.
+
+* **Masalah Encoding di Windows:** Script dari AI untuk menulis file lewat PowerShell sempat membuat simbol bintang di tombol star berubah jadi `?`, dan file tes terkena karakter BOM sehingga muncul error `U+FEFF`. Masalah ini tidak terlihat dari kodenya, baru ketahuan setelah aku menjalankannya sendiri.
+
+* **Pengujian Hak Akses Tiap Peran:** Aku membuat user `editor1` dan `biasa1` lewat shell, lalu mengecek satu per satu respons tiap peran (redirect ke login, 403, atau berhasil), dan membuka halaman `/projects/` sebagai anonim dan editor untuk memastikan tombol yang tampil sesuai hak akses.
+
+* **Perbaikan Keamanan Data:** Aku menemukan `edit_project` yang belum dilindungi, tooltip star yang menampilkan username, dan JSON yang membocorkan ID user lewat `starred_by`, lalu memperbaikinya satu per satu. Aku juga memperbaiki URL di `test_e2e.py` dan fixture `initial_projects.json` yang fieldnya sudah tidak cocok dengan model.
+
