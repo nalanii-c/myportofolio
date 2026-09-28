@@ -4,7 +4,7 @@
     <button type="submit"
             class="button button-star{% if user in project.starred_by.all %} is-starred{% endif %}"
             title="{% if user in project.starred_by.all %}Klik untuk membatalkan star{% else %}Klik untuk memberi star{% endif %}">
-        <span aria-hidden="true">?</span>
+        <span aria-hidden="true">&#9733;</span>
         {% if user in project.starred_by.all %}Unstar{% else %}Star{% endif %}
         <span class="star-count">{{ project.starred_by.count }}</span>
     </button>
@@ -13,7 +13,7 @@
 <a href="{% url 'main:login' %}?next={{ request.path }}"
    class="button button-star"
    title="Login untuk memberi star">
-    <span aria-hidden="true">?</span> Login untuk star
+    <span aria-hidden="true">&#9733;</span> Login untuk star
     <span class="star-count">{{ project.starred_by.count }}</span>
 </a>
 {% endif %}
