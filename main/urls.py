@@ -11,7 +11,8 @@ from main.views import (
     register,
     login_user,
     logout_user,
-    toggle_star
+    toggle_star,
+    get_projects_json,
 )
 
 app_name = 'main'
@@ -22,6 +23,7 @@ urlpatterns = [
     path('education/', show_education, name='show_education'),
     path('skills/', show_skills, name='show_skills'),
     path('projects/', show_projects, name='show_projects'),
+    path('projects/json/', get_projects_json, name='get_projects_json'),
     path('projects/create/', create_project, name='create_project'),
     path('projects/edit/<str:id>/', edit_project, name='edit_project'),
     path('projects/delete/<str:id>/', delete_project, name='delete_project'),
