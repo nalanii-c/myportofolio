@@ -123,3 +123,6 @@ sftp-config.json
 *.pyc
 db.sqlite3
 venv/
+__pycache__/
+*.pyc
+.venv/
