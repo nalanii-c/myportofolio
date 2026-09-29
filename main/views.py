@@ -10,31 +10,51 @@ from django.shortcuts import get_object_or_404, redirect, render
 from main.forms import ProjectForm
 from main.permissions import perm_required
 from main.models import Education, Experience, Project, Skill
+from django.http import JsonResponse
+from main.forms import ProjectForm
+from django.views.decorators.http import require_POST
+
 
 
 def get_projects_json(request):
     title_query = request.GET.get("title", "").strip()
-    projects = Project.objects.all()
+    projects = Project.objects.prefetch_related('starred_by').all()
+
     if title_query:
         projects = projects.filter(title__icontains=title_query)
-    safe_fields = [f.name for f in Project._meta.concrete_fields if f.name != "id"]
-    projects_json = serializers.serialize(
-        "json", projects, fields=safe_fields, use_natural_foreign_keys=True
-    )
-    return HttpResponse(projects_json, content_type="application/json")
+
+    # Konstruksi data JSON secara manual agar bisa menyisipkan logika Star
+    data = []
+    for project in projects:
+        starred_users = project.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(project.id),
+            "fields": {
+                "title": project.title,
+                "description": project.description,
+                "tech_stack": project.tech_stack,
+                "project_url": project.project_url,
+                "project_image_url": project.project_image_url,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 def show_projects(request):
     title_query = request.GET.get("title", "").strip()
-    projects = Project.objects.prefetch_related("starred_by")
-    if title_query:
-        projects = projects.filter(title__icontains=title_query)
+
     context = {
         "name": "Khalisha Nalani Chandra",
-        "project_list": projects,
         "title_query": title_query,
+        "form" : ProjectForm(),
     }
     return render(request, "project.html", context)
-
 
 @perm_required("main.add_project")
 def create_project(request):
@@ -175,3 +195,21 @@ def logout_user(request):
     response = redirect("main:show_main")
     response.delete_cookie("last_login")
     return response
+
+@require_POST
+def create_project_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan proyek."},
+            status=403,
+        )
+
+    form = ProjectForm(request.POST)
+    if form.is_valid():
+        project = form.save()
+        return JsonResponse(
+            {"message": "Proyek berhasil ditambahkan.", "pk": str(project.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
