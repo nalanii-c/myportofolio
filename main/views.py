@@ -198,9 +198,9 @@ def logout_user(request):
 
 @require_POST
 def create_project_ajax(request):
-    if not request.user.is_superuser:
+    if not request.user.has_perm("main.add_project"):
         return JsonResponse(
-            {"message": "Hanya pemilik portofolio yang dapat menambahkan proyek."},
+            {"message": "Anda tidak memiliki izin untuk menambahkan proyek."},
             status=403,
         )
 
