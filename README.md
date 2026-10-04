@@ -61,8 +61,15 @@ Waktu aku nambahin field `featured = models.BooleanField(default=False)` di mode
 
 3. Alur yang terjadi saat aku menggunakan fungsi *view* untuk mengembalikan data portofolio (seperti data proyek atau pengalamanku) dalam bentuk JSON dimulaiFtug dengan *view* mengambil data dari *database* menggunakan *QuerySet* Django (misalnya `Project.objects.all()`). Karena objek model Django berupa kumpulan data Python yang tidak bisa langsung dibaca oleh protokol HTTP/JavaScript mentah, aku perlu melakukan proses *serialization* (mengubah objek model menjadi format standar yang bisa dibaca mesin, menggunakan *serializer* bawaan Django atau `JsonResponse`). Setelah data berhasil di *serialize* menjadi format JSON, *view* akan mengembalikan data tersebut sebagai *HTTP response* ke klien, sehingga data portofolioku bisa diakses atau diolah lebih lanjut dengan mudah oleh *frontend*.
 
+### 🌐 Tugas 5: Web Interactivity with JavaScript
 
+### Tugas 5
 
+1. **Debouncing** itu teknik buat nunda eksekusi sebuah fungsi sampai user berhenti melakukan aksi (misalnya ngetik) selama jeda waktu tertentu. Kalau user masih ngetik sebelum jeda habis, timer nya di reset lagi. Di proyekku, aku pakai `setTimeout` dan `clearTimeout` dengan jeda 300 ms (`SEARCH_DEBOUNCE_DELAY`) di event `input` kolom search. Teknik ini penting di pencarian AJAX karena tanpa debounce, setiap huruf yang diketik langsung ngirim request ke `/projects/json/`. Misalnya ngetik Toy bakal ngirim 3 request (T, To, Toy), padahal yang dibutuhin cuma hasil akhirnya. Akibatnya server kerja berlebihan, dan response lama yang telat datang bisa nimpa hasil yang lebih baru sehingga tampilannya salah. Dengan debounce, request cuma dikirim sekali setelah user berhenti ngetik. Di `fetchProjects` aku juga pakai `AbortController` supaya request lama dibatalin kalau ada request baru.
+
+2. `await` dipakai buat nunggu `fetch()` selesai dan ngasih hasil aslinya (objek `Response`), soalnya `fetch()` itu asynchronous dan langsung ngembaliin `Promise`, bukan datanya. Dengan `await`, JavaScript berhenti sebentar di baris itu (tanpa nge freeze halaman) sampai response nya datang, baru lanjut ke baris berikutnya. Kalau nggak pakai `await`, variabel `response` isinya masih `Promise` yang belum selesai, jadi `response.ok` bakal `undefined`. Di `fetchProjects`, kondisi `!response.ok` jadi true sehingga error dilempar dan yang tampil malah pesan Gagal memuat data, padahal servernya baik2 aja. Di `addProject`, kode setelah fetch (toast, tutup modal, `fetchProjects`) bakal jalan duluan sebelum server jawab, blok `finally` juga langsung jalan sehingga tombol submit aktif lagi padahal request belum kelar, dan `try/catch` nggak bakal nangkep error jaringan karena error nya baru muncul nanti di luar blok itu.
+
+3. **XSS (Cross-Site Scripting)** itu serangan di mana penyerang nyisipin script berbahaya (misalnya `<script>` atau `<img onerror=...>`) ke input yang nanti ditampilkan di halaman, sehingga script nya jalan di browser korban. Dampaknya bisa nyuri cookie atau sesi login, ngubah tampilan halaman, atau ngelakuin aksi atas nama korban. Data lewat AJAX/JavaScript lebih rentan karena Django template otomatis nge-escape variabel `{{ }}` (autoescape), jadi `<` berubah jadi `&lt;` dan aman by default. Sedangkan di JavaScript, data dari JSON itu mentah, dan kita sendiri yang nyusun HTML pakai template literal terus dimasukin lewat `innerHTML`, yang nafsirin string sebagai HTML beneran tanpa escaping otomatis. Jadi lupa satu nilai aja bisa jadi celah. Di proyekku aku nutupnya dua lapis: `escapeHtml()` di semua nilai teks sebelum masuk `innerHTML` di `buildProjectCardElement` (toast juga pakai `textContent`), plus `strip_tags` di method `clean_<field>` pada `ModelForm` di sisi server. Pas dites, judul `<script>alert(1)</script>Halo` tersimpan jadi `alert(1)Halo`.
 
 ## 🤖 AI Disclosure & Evaluasi Kritis Perjalanan Proyek
 
@@ -105,3 +112,14 @@ AI membantu menjelaskan cara membuat grup `Editor` beserta permission-nya lewat 
 
 * **Perbaikan Keamanan Data:** Aku menemukan `edit_project` yang belum dilindungi, tooltip star yang menampilkan username, dan JSON yang membocorkan ID user lewat `starred_by`, lalu memperbaikinya satu per satu. Aku juga memperbaiki URL di `test_e2e.py` dan fixture `initial_projects.json` yang fieldnya sudah tidak cocok dengan model.
 
+### Tugas 5 (Web Interactivity with JavaScript):
+
+AI (Claude) membantu menyusun komponen toast untuk notifikasi sukses dan error validasi dari server, menambahkan `strip_tags` pada method `clean_<field>` di `ModelForm`, memeriksa nilai teks yang disisipkan lewat JavaScript supaya di-escape, serta membantu merapikan jawaban pertanyaan reflektif tentang debouncing, `await`, dan XSS.
+
+* **Asumsi Struktur Proyek yang Meleset:** Saran awal AI belum tahu bahwa `project.html` sudah memanggil `showToast` dengan tiga argumen (judul, pesan, tipe), sedangkan komponen toast pertama yang dibuat hanya menerima dua argumen. AI baru bisa menyesuaikan setelah aku menempelkan isi `views.py`, `forms.py`, dan `project.html`.
+
+* **Salah Diagnosis Tombol Tambah Proyek:** Saat tombol "Tambah Proyek" hilang, awalnya aku kira kodenya terhapus. Setelah dicek lewat shell, ternyata tombol itu memang disembunyikan untuk akun tanpa izin `add_project`, dan aku tadi login dengan akun biasa.
+
+* **Script Pengujian yang Tidak Berjalan Semestinya:** Script tes peran dari AI sempat tidak mengeluarkan hasil apa pun karena dijalankan lewat console interaktif, lalu error `UNIQUE constraint failed` karena user sementara tertinggal di database. Aku menjalankan ulang dengan versi yang membersihkan user sisa lebih dulu, lalu memastikan semua halaman berstatus 200 untuk pengunjung, user biasa, dan superuser.
+
+* **Pengujian Mandiri XSS:** Aku mengetes judul `<script>alert(1)</script>Halo` dan memastikan hasilnya tersimpan sebagai `alert(1)Halo`, lalu mengetes `EducationForm` untuk memastikan tag juga dibuang di form lain. Saat mengetes `SkillForm`, ternyata field `category` berupa pilihan (`choices`), jadi inputnya ditolak lebih dulu oleh Django sebelum sampai ke `strip_tags`.
