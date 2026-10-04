@@ -67,6 +67,27 @@ class ProjectForm(ModelForm):
 
 
 class ExperienceForm(ModelForm):
+    def clean_title(self):
+        original = self.cleaned_data["title"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
+    def clean_category(self):
+        original = self.cleaned_data["category"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
+    def clean_description(self):
+        original = self.cleaned_data["description"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
     class Meta:
         model = Experience
         fields = [
@@ -124,6 +145,27 @@ class ExperienceForm(ModelForm):
 
 
 class SkillForm(ModelForm):
+    def clean_name(self):
+        original = self.cleaned_data["name"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
+    def clean_proficiency(self):
+        original = self.cleaned_data["proficiency"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
+    def clean_category(self):
+        original = self.cleaned_data["category"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
     class Meta:
         model = Skill
         fields = [
@@ -159,6 +201,27 @@ class SkillForm(ModelForm):
 
 
 class EducationForm(ModelForm):
+    def clean_institution(self):
+        original = self.cleaned_data["institution"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
+    def clean_year(self):
+        original = self.cleaned_data["year"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
+    def clean_description(self):
+        original = self.cleaned_data["description"]
+        value = strip_tags(original).strip()
+        if original.strip() and not value:
+            raise ValidationError("Isi tidak boleh hanya berisi tag HTML.")
+        return value
+
     class Meta:
         model = Education
         fields = ['year', 'institution', 'description']

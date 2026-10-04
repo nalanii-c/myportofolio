@@ -1,8 +1,71 @@
-  {% load static %}
-  <div id="toast-component" class="toast-component toast-hidden" popover="manual">
-      <div class="toast-content">
-          <h3 id="toast-title" class="toast-title">This is a Sample Title</h3>
-          <p id="toast-message" class="toast-message">This is a Sample Message</p>
-      </div>
-  </div>
-  <script src="{% static 'js/toast.js' %}"></script>
+<style>
+  #toast-container{position:fixed;top:1rem;right:1rem;z-index:2147483647;display:flex;flex-direction:column;gap:.5rem;max-width:360px}
+  .toast{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem 1rem;border-radius:8px;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.25);opacity:0;transform:translateX(20px);transition:opacity .3s,transform .3s}
+  .toast.show{opacity:1;transform:translateX(0)}
+  .toast .toast-title{font-weight:700;margin:0;color:#fff}
+  .toast .toast-message{margin:.15rem 0 0;white-space:pre-line;color:#fff;opacity:.95}
+  .toast-close{margin-left:auto;background:none;border:0;color:inherit;font-size:1.25rem;line-height:1;cursor:pointer}
+  .toast-success{background:#16a34a}
+  .toast-error{background:#dc2626}
+  .toast-info{background:#2563eb}
+</style>
+
+<script>
+(function () {
+  var TYPES = { success: 1, error: 1, info: 1 };
+  var TITLES = { success: "Berhasil", error: "Gagal", info: "Info" };
+
+  // showToast(judul, pesan, tipe)  atau  showToast(pesan, tipe)
+  window.showToast = function (title, message, type, duration) {
+    if (type === undefined && TYPES[message]) { type = message; message = title; title = TITLES[type]; }
+    if (!TYPES[type]) type = "info";
+    duration = duration || (type === "error" ? 6000 : 4000);
+
+    var container = document.getElementById("toast-container");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "toast-container";
+      container.setAttribute("aria-live", "polite");
+      document.body.appendChild(container);
+    }
+
+    var toast = document.createElement("div");
+    toast.className = "toast toast-" + type;
+    toast.setAttribute("role", type === "error" ? "alert" : "status");
+
+    var body = document.createElement("div");
+    var t = document.createElement("p"); t.className = "toast-title"; t.textContent = title || TITLES[type];
+    var m = document.createElement("p"); m.className = "toast-message"; m.textContent = message || "";
+    body.appendChild(t); body.appendChild(m);
+
+    var close = document.createElement("button");
+    close.type = "button"; close.className = "toast-close"; close.setAttribute("aria-label", "Tutup");
+    close.textContent = "\u00d7";
+
+    function remove() { toast.classList.remove("show"); setTimeout(function () { toast.remove(); }, 300); }
+    close.addEventListener("click", remove);
+
+    toast.appendChild(body); toast.appendChild(close);
+    container.appendChild(toast);
+    requestAnimationFrame(function () { toast.classList.add("show"); });
+    setTimeout(remove, duration);
+  };
+})();
+</script>
+
+{% if messages %}
+<div id="django-messages" hidden>
+  {% for message in messages %}
+  <span data-level="{{ message.level_tag }}">{{ message }}</span>
+  {% endfor %}
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#django-messages span").forEach(function (el) {
+    var level = el.dataset.level || "";
+    var type = level.indexOf("error") !== -1 ? "error" : (level.indexOf("success") !== -1 ? "success" : "info");
+    showToast(null, el.textContent, type);
+  });
+});
+</script>
+{% endif %}
