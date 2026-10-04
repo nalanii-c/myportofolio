@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block meta %}
+    <style>.hide { display: none !important; }</style>
     <title>Projects - {{ name }}</title>
 {% endblock meta %}
 {% block content %}
@@ -12,7 +13,7 @@
                     Test Toast Notifikasi
                 </button>
                     <h1>Projects</h1>
-                    {% if user.is_superuser %}
+                    {% if perms.main.add_project %}
                         <button type="button"
                                 class="button project-add-button"
                                 popovertarget="add-project-modal">
@@ -50,66 +51,6 @@
                 <!-- Project Grid -->
                 <div id="grid" class="experience-grid project-grid hide"></div>
 
-                <div class="projects-grid">
-                    {% for project in project_list %}
-                        <article class="project-card">
-                            
-                            <div class="project-content">
-                                <span class="badge">{{ project.tech_stack }}</span>
-                                <h3>{{ project.title }}</h3>
-                                <p>{{ project.description|safe }}</p>
-                            </div>
-
-                            
-                            {% if project.title == "Muga Exhibition" %}
-                                <div class="skill-image-wrap skill-image-wrap--multi">
-                                    <a href="#muga-lightbox">
-                                        <img src="/static/img/dino_nala.jpeg" alt="{{ project.title }}">
-                                    </a>
-                                    <a href="#muga-lightbox">
-                                        <img src="/static/img/dinosaurus_nala.jpeg" alt="{{ project.title }}">
-                                    </a>
-                                    <a href="#muga-lightbox">
-                                        <img src="/static/img/foto_berbarengan.jpeg" alt="{{ project.title }}">
-                                    </a>
-                                </div>
-                            {% elif project.project_image_url %}
-                                <div class="skill-image-wrap">
-                                    <img src="{{ project.project_image_url }}" alt="Gambar {{ project.title }}">
-                                </div>
-                            {% endif %}
-
-                            
-                            <div class="project-card-actions">
-                                <div class="project-actions">
-                                    {% if project.title == "Budaya FOMO" %}
-                                        <a href="https://medium.com/@2223-k.nalani/budaya-fomo-87d6f0d1c7e1" target="_blank" class="button">Lihat Project ↗</a>
-                                    {% elif project.title == "Resensi Toy Story 4" %}
-                                        <a href="https://medium.com/@2223-k.nalani/budaya-fomo-87d6f0d1c7e1" target="_blank" class="button">Lihat Project ↗</a>
-                                    {% elif project.title == "Muga Exhibition" %}
-                                        <a href="#muga-lightbox" class="button">Lihat Foto ↗</a>
-                                    {% elif project.project_url %}
-                                        <a href="{{ project.project_url }}" class="button" target="_blank">Lihat Project ↗</a>
-                                    {% endif %}
-                                    
-                                    {% if perms.main.change_project %}<a href="{% url 'main:edit_project' project.id %}" class="button button-secondary">Edit Proyek</a>{% endif %}
-                                    
-                                    {% include "components/project_star.html" with project=project %}
-
-                                    {% if perms.main.delete_project %}
-                                        {% include "components/project_delete_modal.html" with project=project %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </article>
-                    {% empty %}
-                        {% if title_query %}
-                            <p class="empty-state">Tidak ada proyek dengan nama tersebut.</p>
-                        {% else %}
-                            <p class="empty-state">Belum ada proyek yang ditambahkan.</p>
-                        {% endif %}
-                    {% endfor %}
-                </div>
             </div>
         </section>
 
@@ -123,7 +64,7 @@
         </div>
     </main>
 
-    {% if user.is_superuser %}
+    {% if perms.main.add_project %}
         {% include "components/project_form_modal.html" %}
     {% endif %}
 
