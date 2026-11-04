@@ -1,7 +1,7 @@
 from functools import wraps
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied
-
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 def perm_required(perm):
     """Anonim -> redirect ke login. Sudah login tapi tidak berhak -> 403."""
@@ -15,3 +15,12 @@ def perm_required(perm):
             return view(request, *args, **kwargs)
         return wrapper
     return decorator
+
+class IsPortfolioOwnerOrReadOnly(BasePermission):
+    message = "Only the portfolio owner can change projects."
+
+    def has_permission(self, request, view):
+        return (
+            request.method in SAFE_METHODS
+            or request.user.is_superuser
+        )

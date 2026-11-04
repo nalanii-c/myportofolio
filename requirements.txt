@@ -6,3 +6,4 @@ requests
 urllib3
 python-dotenv
 dj-database-url
+djangorestframework~=3.18.3

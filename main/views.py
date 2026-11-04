@@ -1,4 +1,5 @@
-﻿import datetime
+from django.db import models
+import datetime
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -128,7 +129,23 @@ def show_skills(request):
 def show_experience(request):
     context = {
         "name": "Khalisha Nalani Chandra",
-        "experience_list": Experience.objects.all(),
+        "additional_experiences": Experience.objects.exclude(
+            title__in=[
+                "Staff Media",
+                "Human Resources Of Visual Design",
+                "TRIAKSANG 2026",
+                "Member",
+                "Intern Staff PekRis Marcomms",
+                "Open House Fasilkom",
+                "CS Connect 2025",
+                "Sosial Project Fasilkom UI 2025",
+                "Kumon Student",
+                "SMA Muhammadiyah 3 Jakarta",
+                "Won Ice Skating International 2023",
+                "Student Of The Month & MSC Competition",
+                "Ice Skater",
+            ]
+        ),
     }
     return render(request, "experience.html", context)
 
