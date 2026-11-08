@@ -71,6 +71,15 @@ Waktu aku nambahin field `featured = models.BooleanField(default=False)` di mode
 
 3. **XSS (Cross-Site Scripting)** itu serangan di mana penyerang nyisipin script berbahaya (misalnya `<script>` atau `<img onerror=...>`) ke input yang nanti ditampilkan di halaman, sehingga script nya jalan di browser korban. Dampaknya bisa nyuri cookie atau sesi login, ngubah tampilan halaman, atau ngelakuin aksi atas nama korban. Data lewat AJAX/JavaScript lebih rentan karena Django template otomatis nge-escape variabel `{{ }}` (autoescape), jadi `<` berubah jadi `&lt;` dan aman by default. Sedangkan di JavaScript, data dari JSON itu mentah, dan kita sendiri yang nyusun HTML pakai template literal terus dimasukin lewat `innerHTML`, yang nafsirin string sebagai HTML beneran tanpa escaping otomatis. Jadi lupa satu nilai aja bisa jadi celah. Di proyekku aku nutupnya dua lapis: `escapeHtml()` di semua nilai teks sebelum masuk `innerHTML` di `buildProjectCardElement` (toast juga pakai `textContent`), plus `strip_tags` di method `clean_<field>` pada `ModelForm` di sisi server. Pas dites, judul `<script>alert(1)</script>Halo` tersimpan jadi `alert(1)Halo`.
 
+### Tugas 6
+1. REST adalah gaya arsitektur untuk membuat API dengan aturan penggunaan HTTP method dan URL berdasarkan resource. JSON aja belum cukup buat disebut RESTful karena API juga harus mengikuti prinsip REST. PUT dipakai buat mengganti seluruh data, sedangkan PATCH cuma mengubah sebagian data. Di proyekku, aku pakai PATCH saat mengedit beberapa field proyek tanpa harus mengirim ulang semua data.
+
+2. Serializer di DRF dipakai buat mengubah objek model menjadi JSON dan memvalidasi data yang masuk. Dibanding bikin dictionary manual pakai JsonResponse, serializer lebih praktis karena field dan validasinya bisa diatur dalam satu tempat. Di proyekku, ProjectSerializer juga dipakai buat menghitung star_count dan is_starred.
+
+3. Autentikasi adalah proses buat memastikan siapa pengguna yang sedang login, sedangkan otorisasi menentukan apa saja yang boleh dilakukan pengguna tersebut. Permission harus dicek di server karena menyembunyikan tombol di template aja nggak cukup. Pengguna masih bisa mengirim request langsung ke API. Makanya aku menggunakan IsPortfolioOwnerOrEditorOrReadOnly buat membatasi akses Owner, Editor, dan pengguna biasa.
+
+4. SessionAuthentication tetap membutuhkan CSRF karena browser otomatis mengirim cookie session saat melakukan request. Token CSRF diperlukan buat memastikan request yang mengubah data berasal dari halaman aplikasi yang sah. Sementara itu, force_authenticate nggak cukup buat menguji CSRF karena melewati proses autentikasi session normal. Makanya aku menggunakan Client(enforce_csrf_checks=True) buat mengetes request tanpa dan dengan token CSRF.
+
 ## 🤖 AI Disclosure & Evaluasi Kritis Perjalanan Proyek
 
 Dalam pengembangan portofolio web berbasis Django ini dari awal hingga tahap implementasi form dan JSON API, aku berkolaborasi dengan Gemini sebagai *AI personal collaborator*. 
@@ -123,3 +132,10 @@ AI (Claude) membantu menyusun komponen toast untuk notifikasi sukses dan error v
 * **Script Pengujian yang Tidak Berjalan Semestinya:** Script tes peran dari AI sempat tidak mengeluarkan hasil apa pun karena dijalankan lewat console interaktif, lalu error `UNIQUE constraint failed` karena user sementara tertinggal di database. Aku menjalankan ulang dengan versi yang membersihkan user sisa lebih dulu, lalu memastikan semua halaman berstatus 200 untuk pengunjung, user biasa, dan superuser.
 
 * **Pengujian Mandiri XSS:** Aku mengetes judul `<script>alert(1)</script>Halo` dan memastikan hasilnya tersimpan sebagai `alert(1)Halo`, lalu mengetes `EducationForm` untuk memastikan tag juga dibuang di form lain. Saat mengetes `SkillForm`, ternyata field `category` berupa pilihan (`choices`), jadi inputnya ditolak lebih dulu oleh Django sebelum sampai ke `strip_tags`.
+
+## Tugas 5 (Django REST Framework)
+**AI (ChatGPT)*** membantu menjelaskan konsep REST API, membuat serializer dan endpoint, mengatur permission Owner dan Editor, serta menghubungkan API dengan JavaScript. AI juga membantu menyusun test untuk mengecek validasi, hak akses pengguna, dan perlindungan CSRF.
+
+**Asumsi Struktur Proyek yang Meleset:** Beberapa saran awal AI belum sesuai dengan struktur file dan URL di proyekku, jadi aku perlu memberikan isi file dan output terminal supaya kodenya bisa disesuaikan.
+
+**Pengujian dan Debugging:** AI membantu menganalisis error dan menyusun test, tetapi aku tetap menjalankan perintah melalui PowerShell, memeriksa hasil API, dan menjalankan 23 unit tests sampai semuanya berhasil.
