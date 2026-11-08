@@ -163,6 +163,9 @@ class ProjectAPITest(APITestCase):
         # Pastikan data tetap ada.
         self.assertEqual(Project.objects.count(), 1)
         self.assertTrue(Project.objects.filter(pk=self.project.id).exists())
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.title, "Changed")
+
     def test_staff_without_editor_group_cannot_patch(self):
         self.visitor.is_staff = True
         self.visitor.save()
@@ -179,6 +182,9 @@ class ProjectAPITest(APITestCase):
             response.status_code,
             status.HTTP_403_FORBIDDEN,
         )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.title, "Portfolio")
+
     def test_wrong_method(self):
         self.client.force_authenticate(user=self.owner)
         self.assertEqual(self.client.delete(self.list_url).status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

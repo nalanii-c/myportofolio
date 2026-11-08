@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block meta %}
     <title>Edit Project - {{ name }}</title>
@@ -94,7 +94,7 @@
 
             window.location.href = "{% url 'main:show_projects' %}";
         } catch (error) {
-            alert(error.message);
+            showToast('Request failed', error.message, 'error');
         } finally {
             button.disabled = false;
         }
