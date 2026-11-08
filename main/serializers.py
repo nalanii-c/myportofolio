@@ -1,4 +1,4 @@
-﻿from django.utils.html import strip_tags
+from django.utils.html import strip_tags
 from rest_framework import serializers
 
 from main.models import Project
@@ -7,7 +7,6 @@ from main.models import Project
 class ProjectSerializer(serializers.ModelSerializer):
     star_count = serializers.SerializerMethodField()
     is_starred = serializers.SerializerMethodField()
-    starred_by_names = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -20,13 +19,11 @@ class ProjectSerializer(serializers.ModelSerializer):
             "project_image_url",
             "star_count",
             "is_starred",
-            "starred_by_names",
         ]
         read_only_fields = [
             "id",
             "star_count",
             "is_starred",
-            "starred_by_names",
         ]
 
     def validate_title(self, value):
@@ -71,8 +68,3 @@ class ProjectSerializer(serializers.ModelSerializer):
         return obj.starred_by.filter(
             pk=request.user.pk
         ).exists()
-
-    def get_starred_by_names(self, obj):
-        return ", ".join(
-            user.username for user in obj.starred_by.all()
-        )

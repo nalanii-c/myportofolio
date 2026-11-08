@@ -79,6 +79,8 @@
         const BASE_PROJECTS_ENDPOINT = "{% url 'api:project-list' %}";
         const DETAIL_PROJECT_ENDPOINT = "{% url 'api:project-detail' '00000000-0000-0000-0000-000000000000' %}";
         const STAR_PROJECT_ENDPOINT = "{% url 'api:project-star' '00000000-0000-0000-0000-000000000000' %}";
+        const EDIT_PROJECT_ENDPOINT = "{% url 'main:edit_project' '00000000-0000-0000-0000-000000000000' %}";
+        const CAN_EDIT_PROJECT = "{{ perms.main.change_project|yesno:'true,false' }}" === "true";
 
         const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
         const IS_AUTHENTICATED = "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
@@ -141,9 +143,13 @@
             const star = IS_AUTHENTICATED
                 ? `<button type="button" class="button button-star${project.is_starred ? ' is-starred' : ''}"
                     data-action="star" data-id="${escapeHtml(project.id)}"
-                    title="${escapeHtml(project.starred_by_names)}">
+                    title="${project.is_starred ? 'Unstar project' : 'Star project'}">
                     ${project.is_starred ? 'Unstar' : 'Star'} (${project.star_count})</button>`
                 : `<a href="{% url 'main:login' %}" class="button">Login to star (${project.star_count})</a>`;
+
+            const edit = CAN_EDIT_PROJECT
+                ? `<a href="${projectEndpoint(EDIT_PROJECT_ENDPOINT, project.id)}" class="button">Edit</a>`
+                : '';
 
             const remove = IS_SUPERUSER
                 ? `<button type="button" class="button button-danger" data-action="delete"
@@ -155,7 +161,7 @@
                 <p class="experience-description">${escapeHtml(project.description)}</p>
                 <div class="project-card-actions">
                     <div class="project-actions">
-                        ${link}${star}${remove}
+                        ${link}${star}${edit}${remove}
                     </div>
                 </div>`;
 

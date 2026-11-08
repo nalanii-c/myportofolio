@@ -1,6 +1,6 @@
-﻿import uuid
+import uuid
 
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, Permission, User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
@@ -120,7 +120,13 @@ class ProjectAPITest(APITestCase):
         self.assertFalse(response.data["is_starred"])
 
     def test_editor_can_patch_but_cannot_create_or_delete(self):
-        self.visitor.groups.add(Group.objects.create(name="Editor"))
+        editor_group = Group.objects.create(name="Editor")
+        change_permission = Permission.objects.get(
+            content_type__app_label="main",
+            codename="change_project",
+        )
+        editor_group.permissions.add(change_permission)
+        self.visitor.groups.add(editor_group)
         self.client.force_authenticate(user=self.visitor)
 
         # Editor boleh PATCH.
@@ -197,5 +203,3 @@ class ProjectAPITest(APITestCase):
             HTTP_X_CSRFTOKEN=token,
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-
-

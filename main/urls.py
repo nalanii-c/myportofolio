@@ -1,5 +1,4 @@
-﻿from django.urls import path
-from main.api_views import project_list
+from django.urls import path
 from main.views import (
     show_projects,
     create_project,
@@ -35,6 +34,5 @@ urlpatterns = [
     # Tambahkan path ini ke dalam urlpatterns
     path("projects/<uuid:project_id>/star/", toggle_star, name="toggle_star"),
     path("projects/add-ajax/",create_project_ajax, name="create_project_ajax"),
-    path("api/projects/", project_list, name="api_project_list"),
 
     ]
