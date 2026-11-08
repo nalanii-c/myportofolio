@@ -119,14 +119,44 @@ class ProjectAPITest(APITestCase):
         self.assertEqual(response.data["star_count"], 0)
         self.assertFalse(response.data["is_starred"])
 
-    def test_staff_and_editor_cannot_manage_tutorial_projects(self):
-        self.visitor.is_staff = True
-        self.visitor.save()
+    def test_editor_can_patch_but_cannot_create_or_delete(self):
         self.visitor.groups.add(Group.objects.create(name="Editor"))
         self.client.force_authenticate(user=self.visitor)
-        response = self.client.patch(self.detail_url, {"title": "Changed"}, format="json")
+
+        # Editor boleh PATCH.
+        response = self.client.patch(
+            self.detail_url,
+            {"title": "Changed"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.title, "Changed")
+
+        # Editor tidak boleh PUT.
+        response = self.client.put(
+            self.detail_url,
+            self.payload,
+            format="json",
+        )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+        # Editor tidak boleh POST.
+        response = self.client.post(
+            self.list_url,
+            self.payload,
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # Editor tidak boleh DELETE.
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # Pastikan data tetap ada.
+        self.assertEqual(Project.objects.count(), 1)
+        self.assertTrue(Project.objects.filter(pk=self.project.id).exists())
     def test_wrong_method(self):
         self.client.force_authenticate(user=self.owner)
         self.assertEqual(self.client.delete(self.list_url).status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -151,3 +181,4 @@ class ProjectAPITest(APITestCase):
             HTTP_X_CSRFTOKEN=token,
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
