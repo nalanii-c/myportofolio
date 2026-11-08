@@ -157,6 +157,22 @@ class ProjectAPITest(APITestCase):
         # Pastikan data tetap ada.
         self.assertEqual(Project.objects.count(), 1)
         self.assertTrue(Project.objects.filter(pk=self.project.id).exists())
+    def test_staff_without_editor_group_cannot_patch(self):
+        self.visitor.is_staff = True
+        self.visitor.save()
+
+        self.client.force_authenticate(user=self.visitor)
+
+        response = self.client.patch(
+            self.detail_url,
+            {"title": "Changed"},
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_403_FORBIDDEN,
+        )
     def test_wrong_method(self):
         self.client.force_authenticate(user=self.owner)
         self.assertEqual(self.client.delete(self.list_url).status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -181,4 +197,5 @@ class ProjectAPITest(APITestCase):
             HTTP_X_CSRFTOKEN=token,
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
 
